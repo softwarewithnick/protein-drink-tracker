@@ -21,14 +21,32 @@
 
     <p id="status-text" class="status"></p>
 
-    <div class="streak-container">
-      <span class="streak-label">🔥 Streak:</span>
-      <span id="streak-count" class="streak-count">0</span>
+    <div class="stats-row">
+      <div class="stat-card progress-card">
+        <span class="stat-label">Progress</span>
+        <span id="progress-text" class="progress-count">0 / 1</span>
+      </div>
+      <div class="stat-card streak-card">
+        <span class="stat-label">Streak</span>
+        <span id="streak-count" class="streak-count">0</span>
+      </div>
     </div>
 
-    <button type="button" id="toggle-btn" class="toggle-btn" aria-pressed="false">
-      I drank my protein
-    </button>
+    <div class="actions-container">
+      <button type="button" id="toggle-btn" class="toggle-btn" aria-pressed="false">
+        I drank a protein
+      </button>
+      <button type="button" id="reset-btn" class="reset-btn">
+        Reset Today
+      </button>
+    </div>
+
+    <div class="settings-footer">
+      <div class="setting-item">
+        <label for="goal-input">Daily Goal</label>
+        <input type="number" id="goal-input" min="1" max="10" value="1">
+      </div>
+    </div>
   </main>
   <script src="app.js"></script>
 </body>

@@ -17,9 +17,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 1.5rem;
-  gap: 1.5rem;
+  justify-content: flex-start;
+  padding: 2rem 1.5rem;
+  gap: 2rem;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .title {
@@ -29,15 +31,16 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* Graphic container: one visible image at a time asdf*/
+/* Graphic container */
 .graphic-container {
   position: relative;
-  width: min(280px, 75vw);
-  height: min(280px, 75vw);
+  width: min(240px, 60vw);
+  height: min(240px, 60vw);
   flex-shrink: 0;
-  border-radius: 12px;
+  border-radius: 24px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .graphic-img {
@@ -59,67 +62,138 @@ body {
 /* Status text */
 .status {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2ecc71;
   min-height: 1.5em;
+  text-align: center;
 }
 
-/* Streak display */
-.streak-container {
+/* Stats Layout */
+.stats-row {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  width: 100%;
+  max-width: 400px;
+  gap: 1rem;
+}
+
+.stat-card {
+  flex: 1;
   background: rgba(255, 255, 255, 0.05);
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+  padding: 1rem;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-.streak-label {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.7);
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(255, 255, 255, 0.5);
 }
 
-.streak-count {
+.stat-count, .progress-count {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.streak-card .stat-count::before {
+  content: "🔥 ";
+}
+
+/* Actions */
+.actions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.toggle-btn {
+  width: 100%;
+  max-width: 300px;
+  padding: 1.2rem;
   font-size: 1.2rem;
   font-weight: 700;
-  color: #e94560;
-}
-
-/* Toggle button */
-.toggle-btn {
-  padding: 0.9rem 1.6rem;
-  font-size: 1.1rem;
-  font-weight: 600;
   border: none;
-  border-radius: 9999px;
+  border-radius: 16px;
   cursor: pointer;
   background: linear-gradient(135deg, #e94560 0%, #c73e54 100%);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(233, 69, 96, 0.4);
-  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 24px rgba(233, 69, 96, 0.3);
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .toggle-btn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 6px 20px rgba(233, 69, 96, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(233, 69, 96, 0.4);
 }
 
 .toggle-btn:active {
-  transform: scale(0.98);
+  transform: translateY(0);
 }
 
 .toggle-btn[aria-pressed="true"] {
   background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-  box-shadow: 0 4px 14px rgba(46, 204, 113, 0.4);
+  box-shadow: 0 8px 24px rgba(46, 204, 113, 0.3);
 }
 
-.toggle-btn[aria-pressed="true"]:hover {
-  box-shadow: 0 6px 20px rgba(46, 204, 113, 0.5);
+.reset-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.reset-btn:hover {
+  color: #fff;
+}
+
+/* Settings Footer */
+.settings-footer {
+  margin-top: auto;
+  padding-top: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.setting-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.setting-item input {
+  background: #1a1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  width: 50px;
+  text-align: center;
+  font-weight: 600;
 }
 
 .toggle-btn:focus {
   outline: 2px solid rgba(255, 255, 255, 0.6);
   outline-offset: 3px;
+}
 }
 
 .toggle-btn:focus:not(:focus-visible) {

@@ -24,22 +24,31 @@
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return { dateKey: null, drank: false, streak: 0, lastStreakDate: null };
+      if (!raw) return { dateKey: null, count: 0, goal: 1, streak: 0, lastStreakDate: null };
       const data = JSON.parse(raw);
+      
+      // Migration of old boolean state to counter state
+      let initialCount = Number(data.count);
+      if (isNaN(initialCount)) {
+        initialCount = data.drank ? 1 : 0;
+      }
+
       return {
         dateKey: data.dateKey || null,
-        drank: Boolean(data.drank),
+        count: initialCount,
+        goal: Number(data.goal) || 1,
         streak: Number(data.streak) || 0,
         lastStreakDate: data.lastStreakDate || null
       };
-    } catch (_) {
-      return { dateKey: null, drank: false, streak: 0, lastStreakDate: null };
+    } catch (e) {
+      console.error("Error loading state:", e);
+      return { dateKey: null, count: 0, goal: 1, streak: 0, lastStreakDate: null };
     }
   }
 
-  function saveState(dateKey, drank, streak, lastStreakDate) {
+  function saveState(dateKey, count, goal, streak, lastStreakDate) {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ dateKey, drank, streak, lastStreakDate }));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ dateKey, count, goal, streak, lastStreakDate }));
     } catch (_) {}
   }
 
@@ -53,102 +62,133 @@
     return y + '-' + m + '-' + d;
   }
 
-  function getCurrentDrank() {
+  function getCurrentState() {
     const dateKey = getDateKey();
     const stored = loadState();
     if (stored.dateKey !== dateKey) {
-      return false;
+      // New day, reset count but keep streak and goal
+      return { ...stored, dateKey, count: 0 };
     }
-    return stored.drank;
+    return stored;
   }
 
-  function setDrank(drank) {
-    const dateKey = getDateKey();
+  function updateGoal(newGoal) {
+    const state = getCurrentState();
+    state.goal = newGoal;
+    saveState(state.dateKey, state.count, state.goal, state.streak, state.lastStreakDate);
+    updateUI();
+  }
+
+  function incrementCount() {
+    const state = getCurrentState();
+    const dateKey = state.dateKey;
     const yesterday = getYesterdayKey(dateKey);
-    const stored = loadState();
     
-    let newStreak = stored.streak;
-    let newLastStreakDate = stored.lastStreakDate;
-
-    if (drank) {
-      if (stored.lastStreakDate === yesterday) {
-        newStreak = stored.streak + 1;
-        newLastStreakDate = dateKey;
-      } else if (stored.lastStreakDate === dateKey) {
-        // Already marked today, do nothing to streak
+    state.count += 1;
+    
+    // Check if goal met for streak
+    if (state.count === state.goal) {
+      if (state.lastStreakDate === yesterday) {
+        state.streak += 1;
+        state.lastStreakDate = dateKey;
+      } else if (state.lastStreakDate === dateKey) {
+        // Goal already met today, don't increment streak again
       } else {
-        newStreak = 1;
-        newLastStreakDate = dateKey;
-      }
-    } else {
-      
-      if (stored.lastStreakDate === dateKey) {
-        newStreak = Math.max(0, stored.streak - 1);
-        newLastStreakDate = yesterday;
+        state.streak = 1;
+        state.lastStreakDate = dateKey;
       }
     }
 
-    saveState(dateKey, drank, newStreak, newLastStreakDate);
+    saveState(state.dateKey, state.count, state.goal, state.streak, state.lastStreakDate);
+    updateUI();
   }
 
-  function toggleDrank() {
-    const next = !getCurrentDrank();
-    setDrank(next);
-    return next;
+  function resetToday() {
+    const state = getCurrentState();
+    const dateKey = state.dateKey;
+    const yesterday = getYesterdayKey(dateKey);
+
+    // If goal was previously met today, decrement streak
+    if (state.count >= state.goal && state.lastStreakDate === dateKey) {
+      state.streak = Math.max(0, state.streak - 1);
+      state.lastStreakDate = yesterday;
+    }
+
+    state.count = 0;
+    saveState(state.dateKey, state.count, state.goal, state.streak, state.lastStreakDate);
+    updateUI();
   }
 
-  function updateUI(drank) {
+  function updateUI() {
     const flexed = document.getElementById('arm-flexed');
     const weak = document.getElementById('arm-weak');
     const btn = document.getElementById('toggle-btn');
     const status = document.getElementById('status-text');
     const streakCount = document.getElementById('streak-count');
+    const progressText = document.getElementById('progress-text');
+    const goalInput = document.getElementById('goal-input');
 
-    const stored = loadState();
-    const dateKey = getDateKey();
+    const state = getCurrentState();
+    const dateKey = state.dateKey;
     const yesterday = getYesterdayKey(dateKey);
+    const completed = state.count >= state.goal;
     
     // Validate streak: if lastStreakDate is older than yesterday, streak is broken
-    let displayedStreak = stored.streak;
-    if (stored.lastStreakDate !== dateKey && stored.lastStreakDate !== yesterday) {
+    let displayedStreak = state.streak;
+    if (state.lastStreakDate !== dateKey && state.lastStreakDate !== yesterday) {
       displayedStreak = 0;
     }
 
-    if (flexed) flexed.classList.toggle('hidden', !drank);
-    if (weak) weak.classList.toggle('hidden', drank);
+    if (flexed) flexed.classList.toggle('hidden', !completed);
+    if (weak) weak.classList.toggle('hidden', completed);
     if (btn) {
-      btn.setAttribute('aria-pressed', drank ? 'true' : 'false');
-      btn.textContent = drank ? "I drank my protein" : "I drank my protein";
+      btn.setAttribute('aria-pressed', completed ? 'true' : 'false');
     }
     if (status) {
-      status.textContent = drank ? 'Protein done for today.' : 'Not yet today.';
+      status.textContent = completed ? 'Goal completed for today!' : 'Keep going!';
     }
     if (streakCount) {
       streakCount.textContent = displayedStreak;
     }
+    if (progressText) {
+      progressText.textContent = `${state.count} / ${state.goal}`;
+    }
+    if (goalInput) {
+      goalInput.value = state.goal;
+    }
   }
 
-  function handleToggle() {
-    const drank = toggleDrank();
-    updateUI(drank);
+  function handleIncrement() {
+    incrementCount();
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
       navigator.vibrate(50);
     }
   }
 
   function init() {
-    const drank = getCurrentDrank();
-    updateUI(drank);
+    updateUI();
 
     const btn = document.getElementById('toggle-btn');
     if (btn) {
-      btn.addEventListener('click', handleToggle);
+      btn.addEventListener('click', handleIncrement);
+    }
+
+    const resetBtn = document.getElementById('reset-btn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', resetToday);
+    }
+
+    const goalInput = document.getElementById('goal-input');
+    if (goalInput) {
+      goalInput.addEventListener('change', (e) => {
+        const val = parseInt(e.target.value, 10);
+        if (val > 0) updateGoal(val);
+      });
     }
 
     // Optional: re-check dateKey periodically while app is open (e.g. across midnight)
     setInterval(function () {
-      const current = getCurrentDrank();
-      updateUI(current);
+      updateUI();
     }, 60000);
 
     if ('serviceWorker' in navigator) {
@@ -162,3 +202,4 @@
     init();
   }
 })();
+
