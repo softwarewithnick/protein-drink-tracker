@@ -21,9 +21,11 @@ Additionally, here are some YouTube videos that walk through contributing to ope
 
 ## Contributing Guide
 
-We encourage contributions from everyone. This guide explains step-by-step how to contribute via **pull requests (PRs)**.
+We encourage contributions from everyone. For a detailed, beginner-friendly guide on how to set up your environment and submit your first Pull Request, please see our [CONTRIBUTING.md](file:///c:/Users/Maruti/Desktop/protein-drink-tracker/CONTRIBUTING.md).
 
-### 1. Fork the Repository
+### Quick Steps
+1. **Fork the Repository**
+   Click the **Fork** button at the top-right of the GitHub page.
 
 Click the **Fork** button at the top-right of the GitHub page.  
 This creates a copy of the repository under your own GitHub account where you have write access.
