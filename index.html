@@ -63,8 +63,69 @@
 
     <p id="last-time" class="last-time" style="font-size: 0.9rem; color: var(--text-muted); min-height: 1.2em;"></p>
 
+    <!-- Statistics Section -->
+    <div class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-today">0</div>
+          <div class="stat-label">Today</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-week">0</div>
+          <div class="stat-label">This Week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-month">0</div>
+          <div class="stat-label">This Month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">Total Days</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button type="button" id="stats-btn" class="action-btn" aria-label="View Statistics">
+        <span>📊</span> Stats
+      </button>
+      <button type="button" id="export-btn" class="action-btn" aria-label="Export Data">
+        <span>💾</span> Export
+      </button>
+    </div>
+
     <div id="world-clocks" class="world-clocks footer-clocks" aria-label="World Times">
       <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <!-- Statistics Modal -->
+  <div id="stats-modal" class="modal" role="dialog" aria-labelledby="stats-modal-title" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="stats-modal-title">Statistics</h2>
+        <button class="modal-close" id="close-stats-modal" aria-label="Close Statistics">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="calendar-container">
+          <div id="calendar" class="calendar"></div>
+        </div>
+        <div class="stats-summary">
+          <div class="summary-item">
+            <span class="summary-label">Current Streak:</span>
+            <span class="summary-value" id="modal-streak">0 days</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Longest Streak:</span>
+            <span class="summary-value" id="modal-longest-streak">0 days</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">Completion Rate:</span>
+            <span class="summary-value" id="modal-completion-rate">0%</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <script src="app.js"></script>
