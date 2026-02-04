@@ -11,7 +11,8 @@
     { name: 'New York', timeZone: 'America/New_York' },
     { name: 'London', timeZone: 'Europe/London' },
     { name: 'Tokyo', timeZone: 'Asia/Tokyo' },
-    { name: 'Sydney', timeZone: 'Australia/Sydney' }
+    { name: 'Sydney', timeZone: 'Australia/Sydney' },
+    { name: 'India', timeZone: 'Asia/Kolkata' }
   ];
 
   /* --- Location Variables --- */
@@ -311,9 +312,83 @@
     }
   }
 
+  function celebrate() {
+    // 1. Confetti Explosion
+    if (typeof confetti === 'function') {
+      const count = 200;
+      const defaults = {
+        origin: { y: 0.7 }
+      };
+
+      function fire(particleRatio, opts) {
+        confetti(Object.assign({}, defaults, opts, {
+          particleCount: Math.floor(count * particleRatio)
+        }));
+      }
+
+      fire(0.25, { spread: 26, startVelocity: 55 });
+      fire(0.2, { spread: 60 });
+      fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+      fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+      fire(0.1, { spread: 120, startVelocity: 45 });
+    }
+
+    // 2. Small Floating Emojis (Scattered bubbles style)
+    const emojis = ['👍', '🙂', '💪', '⭐', '🥤', '🔥'];
+    const container = document.body;
+
+    // Create 30 small emojis
+    for (let i = 0; i < 30; i++) {
+      const el = document.createElement('div');
+      el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+      // Random Positioning and Sizing
+      const startLeft = Math.random() * 80 + 10; // 10% to 90%
+      const startTop = Math.random() * 30 + 50;  // 50% to 80% vertical (start around middle/bottom)
+      const size = Math.random() * 1.5 + 1.5;    // 1.5rem to 3rem (small)
+      const duration = Math.random() * 1000 + 1000; // 1s to 2s duration
+
+      Object.assign(el.style, {
+        position: 'fixed',
+        left: `${startLeft}%`,
+        top: `${startTop}%`,
+        fontSize: `${size}rem`,
+        pointerEvents: 'none',
+        zIndex: '9999',
+        transform: 'translate(-50%, -50%) scale(0)',
+        opacity: '0',
+        transition: `all ${duration}ms cubic-bezier(0.19, 1, 0.22, 1)`,
+        textShadow: '0 4px 8px rgba(0,0,0,0.2)'
+      });
+
+      container.appendChild(el);
+
+      // Animate
+      requestAnimationFrame(() => {
+        // Explode outward + float up
+        const endTop = startTop - (Math.random() * 40 + 20); // Move up 20-60%
+        const rotate = Math.random() * 60 - 30; // Rotate slightly
+
+        el.style.opacity = '1';
+        el.style.transform = `translate(-50%, -50%) scale(1) rotate(${rotate}deg)`;
+        el.style.top = `${endTop}%`;
+
+        // Fade out
+        setTimeout(() => {
+          el.style.opacity = '0';
+          el.style.filter = 'blur(4px)'; // Add blur on fade out
+          setTimeout(() => el.remove(), 500);
+        }, duration - 400);
+      });
+    }
+  }
+
   function handleToggle() {
     const drank = toggleDrank();
     updateUI(drank);
+    if (drank) {
+      celebrate();
+    }
     if (typeof navigator !== 'undefined' && navigator.vibrate) {
       navigator.vibrate(50);
     }

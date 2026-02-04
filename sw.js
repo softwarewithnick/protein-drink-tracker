@@ -1,11 +1,11 @@
-const CACHE_NAME = 'protein-tracker-v2';
+const CACHE_NAME = 'protein-tracker-v19';
 const urlsToCache = [
   './',
   './index.html',
   './styles.css',
   './app.js',
   './manifest.json',
-  './icons/icon2.svg',
+  './icons/icon1.png',
   './images/drank.png',
   './images/not-drank.png'
 ];
@@ -14,7 +14,7 @@ self.addEventListener('install', function (event) {
   event.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
       return cache.addAll(urlsToCache);
-    }).catch(function () {})
+    }).catch(function () { })
   );
   self.skipWaiting();
 });

@@ -54,19 +54,42 @@ body {
 }
 
 /* Header / Navbar */
+/* Header / Navbar */
+/* Header / Navbar - Dynamic Island Style */
 .app-header {
   position: sticky;
-  top: 0;
-  z-index: 100;
+  top: 1rem;
+  /* Float from top */
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.8rem 2rem;
-  background: var(--glass-bg);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--shadow-color);
-  box-shadow: 0 2px 10px var(--shadow-color);
+  width: min(98%, 1200px);
+  /* Constrain width to look like an island */
+  margin: 0 auto;
+  /* Center horizontally */
+  padding: 0.6rem 1.5rem;
+  /* Compact padding */
+  border-radius: 100px;
+  /* Full pill shape */
+
+  /* Deep Liquid Glass Effect */
+  background: rgba(15, 15, 20, 0.85);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+[data-theme="light"] .app-header {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 20px 40px -10px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .header-left,
@@ -89,77 +112,203 @@ body {
 }
 
 .logo-text {
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-size: 1.4rem;
+  font-weight: 900;
   margin: 0;
   letter-spacing: -0.02em;
   white-space: nowrap;
+  background: linear-gradient(135deg, #ffffff 0%, #a5a5a5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* Standard property */
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+[data-theme="light"] .logo-text {
+  background: linear-gradient(135deg, #1a1a2e 0%, #4a4a4a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Navbar Clock */
 /* Navbar Clock */
 .navbar-clock {
   display: flex;
   align-items: baseline;
-  gap: 4px;
-  padding: 0.4rem 1.2rem;
-  background: rgba(0, 0, 0, 0.05);
+  gap: 6px;
+  padding: 0.2rem 1rem;
+  /* Tighter padding */
+  background: rgba(0, 0, 0, 0.2);
+  /* Darker base */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border-radius: 999px;
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
+  /* Double shadow for depth + red outline effect */
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.3),
+    /* Drop shadow */
+    0 0 0 1px rgba(255, 71, 87, 0.5),
+    /* Red Accent Border simulation */
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  /* Inner shine */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+[data-theme="light"] .navbar-clock {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(255, 71, 87, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 [data-theme="dark"] .navbar-clock {
-  background: rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  text-shadow: 0 0 10px rgba(233, 69, 96, 0.3);
+  /* Specific dark mode tweaks already handled in main block via rgba, 
+     but added here if specific overrides needed */
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.navbar-clock:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  border-color: var(--accent-color);
 }
 
 .clock-time {
-  font-size: 1.8rem;
-  font-weight: 700;
-  letter-spacing: -1px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
   line-height: 1;
+  background: linear-gradient(180deg, var(--text-main) 0%, rgba(255, 255, 255, 0.8) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  /* Keep shadow */
+}
+
+[data-theme="light"] .clock-time {
+  background: linear-gradient(180deg, #333 0%, #000 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .clock-seconds {
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--accent-color);
-  opacity: 0.9;
+  opacity: 1;
   font-variant-numeric: tabular-nums;
+  position: relative;
+  top: -0.2em;
+  /* Slight lift */
 }
 
 .navbar-location {
-  font-size: 0.7rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
   color: var(--text-muted);
-  letter-spacing: 0.1em;
-  margin-top: 4px;
+  letter-spacing: 0.15em;
+  margin-top: 8px;
+  opacity: 0.8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] .navbar-location {
+  text-shadow: none;
+  font-weight: 800;
+  color: #666;
 }
 
 /* Theme Toggle (Moved to header) */
+/* Language Picker Styling */
+.language-picker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+#lang-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--card-bg);
+  /* Use card background for better visibility */
+  border: 1px solid var(--text-muted);
+  color: var(--text-main);
+  padding: 0.4rem 0.8rem;
+  padding-right: 2rem;
+  /* Space for custom arrow if added, or just spacing */
+  border-radius: 20px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%237d7d7d%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem top 50%;
+  background-size: 0.65rem auto;
+}
+
+#lang-select:hover {
+  background-color: var(--bg-hover, rgba(125, 125, 125, 0.1));
+  border-color: var(--accent-color);
+}
+
+#lang-select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px var(--toggle-shadow);
+}
+
+#lang-select option {
+  background-color: #2a2a4a;
+  /* Hardcoded dark for better OS compatibility */
+  color: #eee;
+}
+
+[data-theme="light"] #lang-select option {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Theme Toggle (Improved) */
 .theme-toggle {
   position: static;
-  /* removed absolute */
-  background: transparent;
-  border: none;
-  font-size: 1.4rem;
-  cursor: pointer;
-  padding: 0.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--text-muted);
+  /* Match language picker border */
   border-radius: 50%;
-  color: var(--text-main);
-  transition: transform 0.2s ease, background 0.2s;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text-main);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
 }
 
 .theme-toggle:hover {
-  background: rgba(125, 125, 125, 0.1);
-  transform: rotate(15deg);
+  background: var(--card-bg);
+  border-color: var(--accent-color);
+  transform: rotate(15deg) scale(1.1);
+  box-shadow: 0 4px 12px var(--toggle-shadow-hover);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
 }
 
 /* Main Content Area */
@@ -334,54 +483,137 @@ body {
 }
 
 /* MOBILE RESPONSIVE TWEAKS */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .app-header {
-    padding: 0.8rem 1rem;
-    flex-wrap: wrap;
-    /* allow wrapping if needed */
-    gap: 0.5rem;
+    width: 95%;
+    padding: 0.5rem 1rem;
   }
 
   .logo-text {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+  }
+
+  .clock-time {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-header {
+    flex-wrap: nowrap;
+    gap: 0.3rem;
+    /* Reduced gap */
+    padding: 0.4rem 0.6rem;
+    /* Tighter padding */
+    border-radius: 30px;
+    width: 98%;
+    /* Use more width on tiny screens */
+  }
+
+  .header-logo {
+    height: 32px !important;
+  }
+
+  .logo-text {
+    display: none;
   }
 
   .navbar-clock {
-    font-size: 1.25rem;
+    padding: 0.2rem 0.5rem;
+    gap: 2px;
   }
 
-  .header-left {
-    flex: 0 0 auto;
-    margin-right: auto;
-    /* push others */
+  .clock-time {
+    font-size: 1.3rem;
   }
 
-  .header-center {
-    flex: 1 0 100%;
-    /* force to new row on very small screens? or keep inline */
-    order: 3;
-    /* if we want to move clock to bottom of header */
-    padding-top: 0.5rem;
-    border-top: 1px solid rgba(127, 127, 127, 0.1);
-    margin-top: 0.5rem;
+  .clock-seconds {
+    font-size: 0.75rem;
+    top: -0.1em;
   }
 
-  /* Actually, let's keep clock in center and logo left */
-  .header-center {
-    flex: 1;
-    order: 0;
-    border: none;
-    margin: 0;
-    padding: 0;
+  .navbar-location {
+    font-size: 0.55rem;
+    margin-top: 2px;
+  }
+
+  .language-picker {
+    margin-right: 0.3rem;
+  }
+
+  #lang-select {
+    padding: 0.3rem 0.4rem;
+    padding-right: 1.4rem;
+    font-size: 0.75rem;
+    border-radius: 12px;
+  }
+
+  .theme-toggle {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
   }
 
   .main-content {
-    padding: 1.5rem 1rem;
-    gap: 1.2rem;
+    padding: 1rem 0.6rem;
+    gap: 0.8rem;
+  }
+
+  .status {
+    font-size: 0.95rem;
+  }
+
+  .streak-text {
+    font-size: 0.85rem;
+  }
+
+  .toggle-btn {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.85rem;
   }
 
   .footer-clocks {
+    transform: scale(0.85);
+    padding-top: 1rem;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    scrollbar-width: none;
+    /* Hide scrollbar for clean look */
+  }
+
+  .footer-clocks::-webkit-scrollbar {
     display: none;
+    /* Hide scrollbar for Chrome/Safari */
+  }
+
+  .world-clocks {
+    display: inline-flex;
+    /* Ensure items stay in a line for scrolling */
+    justify-content: flex-start;
+    padding: 0 1rem;
+    gap: 1.5rem;
+  }
+
+  .world-clock-item {
+    flex: 0 0 auto;
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 360px) {
+  .clock-time {
+    font-size: 1.1rem;
+  }
+
+  .header-logo {
+    height: 28px !important;
+  }
+
+  .theme-toggle {
+    width: 28px;
+    height: 28px;
   }
 }
 
