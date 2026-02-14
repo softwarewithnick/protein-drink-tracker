@@ -16,6 +16,12 @@
 
   /* Animation timings */
   --transition-speed: 0.3s;
+
+  /*Langage picker*/
+  --input-bg: #0f3460;
+  --input-text: #ffffff;
+  --input-border: #1a4a80;
+  --input-hover: #12407a;
 }
 
 [data-theme="light"] {
@@ -32,6 +38,13 @@
   --shadow-color: rgba(0, 0, 0, 0.08);
   --toggle-shadow: rgba(255, 71, 87, 0.2);
   --toggle-shadow-hover: rgba(255, 71, 87, 0.3);
+
+  /* Langage picker */
+  --input-bg: #ffffff;
+  --input-text: #000000;
+  --input-border: #dddddd;
+  --input-hover: #f2f2f2;
+
 }
 
 *,
@@ -430,6 +443,49 @@ body {
     display: none;
   }
 }
+
+.language-picker {
+  position: relative;
+  display: inline-block;
+}
+
+#lang-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background-color: var(--input-bg);
+  color: var(--input-text);
+
+  padding: 0.6rem 2.2rem 0.6rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid var(--input-border);
+
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  cursor: pointer;
+  outline: none;
+
+  transition: all var(--transition-speed) ease;
+}
+
+#lang-select:hover {
+  background-color: var(--input-hover);
+}
+
+.language-picker::after {
+  content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--input-text);
+  font-size: 0.7rem;
+}
+
+
 
 /* Respect user reduced-motion preferences */
 @media (prefers-reduced-motion: reduce) {

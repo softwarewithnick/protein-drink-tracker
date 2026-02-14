@@ -43,6 +43,14 @@
       statusDone: "Eiwit voor vandaag gedronken.",
       statusNotDone: "Nog niet vandaag.",
       statusStreak: "dag(en) op rij!"
+    },
+    ar: {
+      title: "متتبع البروتين",
+      btnDrank: "شربت مشروب البروتين",
+      btnDrankUndo: "إلغاء",
+      statusDone: "تم شرب البروتين اليوم",
+      statusNotDone: "لم يتم شربه بعد اليوم",
+      statusStreak: "أيام متتالية!"
     }
   };
 
