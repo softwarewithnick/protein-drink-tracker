@@ -425,6 +425,52 @@ body {
   animation: pulse 2s infinite;
 }
 
+/* History Log */
+.history-log {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin: 1rem 0;
+  background: var(--glass-bg);
+  padding: 1.2rem 0.8rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  width: 100%;
+  max-width: 320px;
+}
+
+.history-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.day-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.day-status {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+/* Motivational Quote */
+.motivational-quote {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0.5rem 0;
+  font-style: italic;
+  opacity: 0.8;
+}
+
 /* Toggle Button */
 .toggle-btn {
   padding: 1rem 2.5rem;
@@ -453,6 +499,27 @@ body {
 .toggle-btn[aria-pressed="true"] {
   background: linear-gradient(135deg, var(--success-color) 0%, var(--success-secondary) 100%);
   box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+}
+
+.secondary-btn {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Animations */
@@ -626,5 +693,28 @@ body {
     animation: none !important;
     transition: none !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Notification Alert Animations */
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(400px);
+    opacity: 0;
   }
 }

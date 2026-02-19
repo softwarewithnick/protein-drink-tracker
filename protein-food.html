@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a1a2e">
+  <title>Protein Food List - Protein Drink Tracker</title>
+  <link rel="icon" href="icons/icon2.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    .chart-container {
+      position: relative;
+      height: 60vh;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background: var(--glass-bg);
+      padding: 1rem;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px var(--shadow-color);
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.8rem 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-main);
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: background 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="app-header">
+    <div class="header-left">
+      <h1 class="logo-text">Protein Sources</h1>
+    </div>
+    <div class="header-right">
+        <!-- Reusing existing theme toggle implementation if possible, or just keeping it simple -->
+    </div>
+  </header>
+
+  <div class="main-content">
+    
+    <h2>Top Natural Protein Foods (per 100g)</h2>
+
+    <div class="chart-container">
+      <canvas id="proteinChart"></canvas>
+    </div>
+
+    <a href="index.html" class="back-btn">← Back to Tracker</a>
+
+  </div>
+
+  <script>
+    // Data sorted by protein amount (highest first)
+    const proteinData = [
+      { food: 'Soybeans', amount: 36 },
+      { food: 'Chicken Breast', amount: 31 },
+      { food: 'Peanut Butter', amount: 25 },
+      { food: 'Almonds', amount: 21 },
+      { food: 'Paneer', amount: 18 },
+      { food: 'Eggs', amount: 13 },
+      { food: 'Greek Yogurt', amount: 10 },
+      { food: 'Lentils', amount: 9 }
+    ];
+
+    const ctx = document.getElementById('proteinChart').getContext('2d');
+    
+    // Check if we are in dark mode to adjust chart colors
+    const isDarkMode = document.documentElement.getAttribute('data-theme') !== 'light';
+    const textColor = isDarkMode ? '#eee' : '#333';
+    const gridColor = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: proteinData.map(item => item.food),
+        datasets: [{
+          label: 'Protein (g)',
+          data: proteinData.map(item => item.amount),
+          backgroundColor: [
+            '#e94560',
+            '#0f3460', 
+            '#e94560',
+            '#0f3460',
+            '#e94560',
+            '#0f3460',
+            '#e94560',
+            '#0f3460'
+          ],
+          borderColor: 'rgba(233, 69, 96, 0.8)',
+          borderWidth: 1,
+          borderRadius: 8,
+          borderSkipped: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return context.parsed.y + 'g Protein';
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              color: gridColor
+            },
+            ticks: {
+              color: textColor,
+              font: {
+                family: "'Segoe UI', Roboto, sans-serif"
+              }
+            },
+            title: {
+              display: true,
+              text: 'Protein Content (grams)',
+              color: textColor
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              color: textColor,
+              font: {
+                family: "'Segoe UI', Roboto, sans-serif",
+                weight: 'bold'
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

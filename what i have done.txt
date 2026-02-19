@@ -1,0 +1,35 @@
+Walkthrough - Protein Food List Feature
+I have added a new page to your Protein Drink Tracker that displays the top natural protein foods in a chart.
+
+Changes
+New Page: Created 
+protein-food.html
+ which contains a vertical bar graph using Chart.js.
+New Button: Added a "List of Protein Food (Natural)" button to 
+index.html
+.
+Styles: Updated 
+styles.css
+ to include styles for the new button, matching your existing theme.
+Verification Steps
+Since I was unable to verify this automatically due to a browser environment issue, please follow these steps:
+
+Open 
+index.html
+ in your web browser.
+Scroll down to find the new button labeled "List of Protein Food (Natural)".
+Click the button.
+Verify that it opens a new page showing a chart with protein foods (Soybeans, Chicken Breast, etc.).
+Check that the design matches your dark theme (or light theme if you toggle it).
+Click the "← Back to Tracker" button to return to the main page.
+Data Source
+The chart displays the following data (per 100g):
+
+Soybeans: 36g
+Chicken Breast: 31g
+Peanut Butter: 25g
+Almonds: 21g
+Paneer: 18g
+Eggs: 13g
+Greek Yogurt: 10g
+Lentils: 9g
