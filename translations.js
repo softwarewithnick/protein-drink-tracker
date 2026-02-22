@@ -228,4 +228,41 @@ const translations = {
       "¡Poder de proteína! 🏋️‍♂️",
     ],
   },
+  it: {
+    title: "Tracker Proteine",
+    proteinFoodListBtn: "Alimenti Proteici (Naturali)",
+    btnDrank: "Ho bevuto le mie proteine",
+    btnDrankUndo: "Annulla",
+    statusDone: "Proteine assunte per oggi.",
+    statusNotDone: "Non ancora oggi.",
+    statusStreak: "giorni di fila!",
+    localTime: "Ora Locale", // Main clock label
+    lastDrankLabel: "Ultima assunzione alle", // Label for last drank time
+    // Protein Food Page
+    proteinSourcesTitle: "Fonti di Proteine",
+    proteinFoodPageTitle: "Migliori Alimenti Proteici Naturali (per 100g)",
+    backToTracker: "← Torna al Tracker",
+    proteinLabel: "Proteine (g)",
+    proteinContent: "Contenuto Proteico (grammi)",
+    foods: {
+      soybeans: "Soia",
+      chickenBreast: "Petto di Pollo",
+      peanutButter: "Burro di Arachidi",
+      almonds: "Mandorle",
+      paneer: "Paneer",
+      eggs: "Uova",
+      greekYogurt: "Yogurt Greco",
+      lentils: "Lenticchie",
+    },
+    motivationalQuotes: [
+      "Rimani forte! 💪",
+      "La costanza è la chiave! 🔑",
+      "Un sorso alla volta! 🥤",
+      "Dai energia al tuo corpo! ⚡",
+      "Stai andando alla grande! 🌟",
+      "Idratati e prospera! 💧",
+      "Mantieni la serie! 🔥",
+      "Potenza proteica! 🏋️‍♂️",
+    ],
+  },
 };
