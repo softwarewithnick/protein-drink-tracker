@@ -1,4 +1,14 @@
 <!DOCTYPE html>
+<!--
+  Protein Drink Tracker - Main Page
+
+  Single-page PWA shell.  The <body> is split into two cards:
+    1. tracker-core   : image, drink button, 7-day strip, quote
+    2. dashboard      : badges, progress ring, stats, heatmap
+
+  All dynamic content is rendered by app.js; this file only
+  provides the static skeleton and element IDs that app.js hooks into.
+-->
 <html lang="en">
 
 <head>
@@ -14,8 +24,10 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="manifest.json">
 
+  <!-- i18n dictionary must load before app.js so translations are available. -->
   <script src="translations.js"></script>
 
+  <!-- Apply saved theme immediately to prevent a flash of wrong colours. -->
   <script>
     (function () {
       const saved = localStorage.getItem('proteinTheme');
@@ -26,6 +38,7 @@
 </head>
 
 <body>
+  <!-- ====== APP HEADER (sticky navbar) ====== -->
   <header class="app-header">
     <div class="header-left">
       <h1 class="logo-text">Protein Drink Tracker</h1>
@@ -54,12 +67,15 @@
     </div>
   </header>
 
+<!-- ====== MAIN CONTENT ====== -->
 <div class="main-content">
 
+    <!-- Full-screen confetti overlay (drawn by app.js on milestones). -->
     <canvas id="confetti-canvas" aria-hidden="true"></canvas> 
     
   <div class="content-wrapper">
       
+      <!-- Left card: core tracking UI -->
       <div class="tracker-core">
         <div id="history-log" class="history-log" aria-label="7-day history log"></div>
 
@@ -86,6 +102,7 @@
         <p id="last-time" class="last-time" style="font-size: 0.9rem; color: var(--text-muted); min-height: 1.2em;"></p>
       </div>
 
+      <!-- Right card: gamification dashboard -->
       <div class="dashboard-container">
         
         <div class="badges-section" aria-label="Achievements">
@@ -131,7 +148,7 @@
   </div> 
   <div id="world-clocks" class="world-clocks footer-clocks" aria-label="World Times"></div>
 
-  <!-- ── HISTORY TABLE SECTION ── -->
+  <!-- ====== FULL HISTORY TABLE (populated by app.js) ====== -->
   <div class="history-table-section">
     <div class="history-table-header">
       <h2 class="history-table-title" id="full-history-title">📋 Full History</h2>
@@ -159,7 +176,9 @@
   </div>
 </div>
 
+ <!-- jsPDF for client-side PDF export of history data. -->
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+ <!-- Main application logic - must load after translations.js and jsPDF. -->
  <script src="app.js"></script>
 </body>
 

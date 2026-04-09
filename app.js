@@ -1,14 +1,61 @@
+/**
+ * Protein Drink Tracker - Main Application
+ *
+ * A Progressive Web App for tracking daily protein drink intake.
+ * All data is persisted in localStorage; works fully offline via a service worker.
+ *
+ * Architecture overview:
+ *   1. Constants & Configuration
+ *   2. Confetti Animation System
+ *   3. State Management  (localStorage CRUD)
+ *   4. Date / Time Helpers
+ *   5. Streak Calculation
+ *   6. Notification Reminder
+ *   7. Location & World Clocks
+ *   8. Theme Management
+ *   9. Stats, Badges & Heatmap
+ *  10. Motivational Quotes
+ *  11. UI Rendering
+ *  12. History Table & Export (CSV / PDF)
+ *  13. Notification Helpers
+ *  14. Initialization & Event Binding
+ */
 (function () {
   "use strict";
 
-  const STORAGE_KEY = "proteinDrinkTracker";
-  const THEME_KEY = "proteinTheme";
-  const LANG_KEY = "proteinTrackerLang";
-  const REMINDER_KEY = "proteinReminder";
-  const RESET_HOUR = 2;
-  const HISTORY_MAX_DAYS = 365;
-  const RING_CIRCUMFERENCE = 2 * Math.PI * 52; // matches SVG r=52
+  /* ==========================================================================
+   * 1. CONSTANTS & CONFIGURATION
+   * ========================================================================== */
 
+  /** localStorage key for the main tracker state (dateKey, drank, history, etc.) */
+  const STORAGE_KEY = "proteinDrinkTracker";
+
+  /** localStorage key for the user's preferred color theme ("light" | "dark") */
+  const THEME_KEY = "proteinTheme";
+
+  /** localStorage key for the user's preferred language code (e.g. "en", "fr") */
+  const LANG_KEY = "proteinTrackerLang";
+
+  /** localStorage key for notification reminder settings */
+  const REMINDER_KEY = "proteinReminder";
+
+  /**
+   * The hour (0-23) at which the "app day" resets.
+   * An app day runs from RESET_HOUR to (RESET_HOUR - 1):59 the next calendar day.
+   * This lets late-night users still count drinks toward the previous day.
+   */
+  const RESET_HOUR = 2;
+
+  /** Maximum number of history entries kept in localStorage (rolling window). */
+  const HISTORY_MAX_DAYS = 365;
+
+  /** SVG progress ring circumference, derived from r=52 in the markup. */
+  const RING_CIRCUMFERENCE = 2 * Math.PI * 52;
+
+  /**
+   * Streak milestone tiers displayed in the streak badge.
+   * Ordered highest-first so the first match wins.
+   */
   const STREAK_MILESTONES = [
     { min: 100, icon: "\uD83D\uDC8E", class: "milestone-100" },
     { min: 30, icon: "\uD83D\uDD25", class: "milestone-30" },
@@ -16,6 +63,7 @@
     { min: 7, icon: "\uD83C\uDFC6", class: "milestone-7" },
   ];
 
+  /** Cities shown in the footer world-clock strip. */
   const WORLD_CITIES = [
     { name: "New York", timeZone: "America/New_York" },
     { name: "London", timeZone: "Europe/London" },
@@ -26,7 +74,12 @@
     { name: "Stockholm", timeZone: "Europe/Stockholm" },
   ];
 
-  /* --- Confetti System --- */
+  /* ==========================================================================
+   * 2. CONFETTI ANIMATION SYSTEM
+   *
+   * Canvas-based particle effect launched when the user logs a drink
+   * or hits a streak milestone.
+   * ========================================================================== */
   const confetti = {
     canvas: null,
     ctx: null,
@@ -110,15 +163,25 @@
     }
   };
 
-  /* --- Location Variables --- */
+  /* ==========================================================================
+   * 3. STATE MANAGEMENT (localStorage CRUD)
+   * ========================================================================== */
+
+  /** User's detected city & IANA time-zone (populated by geolocation). */
   let userLocation = { city: "Local Time", timeZone: undefined };
 
-  // Get preferred language (default: en)
+  /** Active UI language code, persisted in localStorage. */
   let currentLang = localStorage.getItem(LANG_KEY) || "en";
 
+  /* ==========================================================================
+   * 4. DATE / TIME HELPERS
+   * ========================================================================== */
+
   /**
-   * App "day" = from 2:00 AM to 1:59 AM next calendar day (local).
-   * Returns YYYY-MM-DD for the current app day.
+   * Build the "app day" key (YYYY-MM-DD).
+   * The app day runs from RESET_HOUR:00 to (RESET_HOUR-1):59 the next
+   * calendar day, so a drink at 1 AM still counts for the previous day.
+   * @returns {string} Date key in YYYY-MM-DD format.
    */
   function getDateKey() {
     const now = new Date();
@@ -133,11 +196,21 @@
     return y + "-" + m + "-" + d;
   }
 
+  /**
+   * Convert a YYYY-MM-DD key back into a local Date object.
+   * @param {string} key - Date key in YYYY-MM-DD format.
+   * @returns {Date}
+   */
   function parseDateKey(key) {
     const [y, m, d] = key.split("-").map(Number);
     return new Date(y, m - 1, d);
   }
 
+  /**
+   * Human-readable date string localized to the current UI language.
+   * @param {string} dateKey - YYYY-MM-DD key.
+   * @returns {string} e.g. "Monday, Apr 7"
+   */
   function formatDisplayDate(dateKey) {
     const d = parseDateKey(dateKey);
     return d.toLocaleDateString(currentLang, {
@@ -147,6 +220,11 @@
     });
   }
 
+  /**
+   * Load the full tracker state from localStorage.
+   * Returns a safe default when nothing is stored or parsing fails.
+   * @returns {{ dateKey: string|null, drank: boolean, drinkTimestamps: Array, history: string[] }}
+   */
   function loadState() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -173,6 +251,13 @@
     }
   }
 
+  /**
+   * Persist tracker state to localStorage, trimming history to HISTORY_MAX_DAYS.
+   * @param {string}   dateKey         - Current app-day key (YYYY-MM-DD).
+   * @param {boolean}  drank           - Whether the user drank today.
+   * @param {string[]} history         - Array of date-keys when the user drank.
+   * @param {Array}    drinkTimestamps - Array of { date, time } objects.
+   */
   function saveState(dateKey, drank, history, drinkTimestamps) {
     try {
       const trimmed = (history || []).slice(-HISTORY_MAX_DAYS);
@@ -183,6 +268,11 @@
     } catch (_) { }
   }
 
+  /**
+   * Check whether the user has already logged a drink for the current app day.
+   * If the stored dateKey doesn't match today, it returns false (new day).
+   * @returns {boolean}
+   */
   function getCurrentDrank() {
     const dateKey = getDateKey();
     const stored = loadState();
@@ -192,6 +282,11 @@
     return stored.drank;
   }
 
+  /**
+   * Return the full history array, auto-correcting inconsistencies
+   * between drank flag and history membership for the current day.
+   * @returns {string[]} Array of YYYY-MM-DD date keys.
+   */
   function getHistory() {
     const dateKey = getDateKey();
     const stored = loadState();
@@ -211,6 +306,10 @@
     return history;
   }
 
+  /**
+   * Mark or un-mark today's drink and update history + timestamps.
+   * @param {boolean} drank - true to mark as drank, false to undo.
+   */
   function setDrank(drank) {
     const dateKey = getDateKey();
     const stored = loadState();
@@ -237,6 +336,15 @@
     saveState(dateKey, drank, history, drinkTimestamps);
   }
 
+  /* ==========================================================================
+   * 5. STREAK CALCULATION
+   * ========================================================================== */
+
+  /**
+   * Count consecutive days (ending today) where the user drank protein.
+   * Returns 0 if today is not yet marked.
+   * @returns {number} Current streak length in days.
+   */
   function getStreak() {
     const todayKey = getDateKey();
     const history = getHistory();
@@ -257,13 +365,27 @@
     return streak;
   }
 
+  /**
+   * Toggle the current day's drank state and persist.
+   * @returns {boolean} The new drank value after toggling.
+   */
   function toggleDrank() {
     const next = !getCurrentDrank();
     setDrank(next);
     return next;
   }
 
-  /* 🔔 Notification reminder initialization */
+  /* ==========================================================================
+   * 6. NOTIFICATION REMINDER
+   *
+   * Initializes default reminder settings in localStorage and forwards
+   * them to the service worker so it can show scheduled notifications.
+   * ========================================================================== */
+
+  /**
+   * Ensure reminder settings exist in localStorage and sync them
+   * with the active service worker (if notifications are permitted).
+   */
   function initReminder() {
     if (!localStorage.getItem(REMINDER_KEY)) {
       localStorage.setItem(REMINDER_KEY, JSON.stringify({
@@ -294,7 +416,19 @@
     }
   }
 
-  /* --- Location Functions --- */
+  /* ==========================================================================
+   * 7. LOCATION & WORLD CLOCKS
+   *
+   * Uses the Geolocation API + BigDataCloud reverse-geocode to
+   * display the user's city and a strip of world clocks.
+   * ========================================================================== */
+
+  /**
+   * Reverse-geocode lat/lon to a city name via BigDataCloud (free, no key).
+   * @param {number} lat - Latitude.
+   * @param {number} lon - Longitude.
+   * @returns {Promise<string>} Resolved city name or fallback.
+   */
   async function fetchCityName(lat, lon) {
     try {
       const res = await fetch(
@@ -309,6 +443,7 @@
     }
   }
 
+  /** Request the user's position and update the main clock label. */
   function initLocation() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (pos) => {
@@ -320,7 +455,7 @@
     }
   }
 
-  /* --- Clock Functions --- */
+  /** Render the world-clock city list into the DOM. */
   function initWorldClocks() {
     const container = document.getElementById("world-clocks");
     if (container) {
@@ -337,6 +472,7 @@
     }
   }
 
+  /** Tick handler: refresh the main clock and every world-clock cell. */
   function updateClock() {
     const now = new Date();
     const timeEl = document.getElementById("clock-time");
@@ -360,7 +496,17 @@
     });
   }
 
-  /* --- Theme Functions --- */
+  /* ==========================================================================
+   * 8. THEME MANAGEMENT
+   *
+   * Persists "light" or "dark" to localStorage and sets the
+   * data-theme attribute on <html> so CSS variables respond.
+   * ========================================================================== */
+
+  /**
+   * Read the persisted theme or fall back to the OS preference.
+   * @returns {"light"|"dark"}
+   */
   function loadTheme() {
     const saved = localStorage.getItem(THEME_KEY);
     if (saved) return saved;
@@ -369,6 +515,10 @@
       : "dark";
   }
 
+  /**
+   * Apply a theme, persist it, and update the toggle button icon.
+   * @param {"light"|"dark"} theme
+   */
   function setTheme(theme) {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem(THEME_KEY, theme);
@@ -376,6 +526,7 @@
     if (btn) btn.textContent = theme === "light" ? "☀️" : "🌙";
   }
 
+  /** Flip between light and dark themes. */
   function toggleTheme() {
     setTheme(
       document.documentElement.getAttribute("data-theme") === "dark"
@@ -384,8 +535,17 @@
     );
   }
 
-  /* --- New Features: Stats, Badges, Heatmap --- */
+  /* ==========================================================================
+   * 9. STATS, BADGES & HEATMAP
+   *
+   * Gamification layer: monthly progress bar, achievement badges,
+   * and a GitHub-style 365-day heatmap grid.
+   * ========================================================================== */
 
+  /**
+   * Compute how many days the user drank this calendar month and
+   * update the monthly progress bar + label.
+   */
   function updateMonthlyStats() {
     const history = getHistory();
 
@@ -429,6 +589,10 @@
     }
   }
 
+  /**
+   * Evaluate gamification badge rules and render them into the
+   * badges container. Badges are either "unlocked" or greyed out.
+   */
   function updateBadges() {
     const streak = getStreak();
     const historyLength = getHistory().length;
@@ -453,6 +617,10 @@
     container.innerHTML = html;
   }
 
+  /**
+   * Render a 365-cell heatmap grid (one cell per day) and auto-scroll
+   * to the present. Active days get the "active" CSS class.
+   */
   function updateHeatmap() {
     const grid = document.getElementById('heatmap-grid');
     if (!grid) return;
@@ -486,11 +654,18 @@
     if (wrapper) wrapper.scrollLeft = wrapper.scrollWidth;
   }
 
+  /* ==========================================================================
+   * 10. MOTIVATIONAL QUOTES
+   *
+   * One random quote per app-day, cached in localStorage so the same
+   * quote persists across page reloads within the same day.
+   * ========================================================================== */
+
   /**
-    * --- Motivational Quote Functions ---
-    * @param {Object} texts The translations object for the current language.
-    * @return {string} The final quote chosen for today.
-  */
+   * Return today's motivational quote (randomly chosen once per app day).
+   * @param {Object} texts - The translations object for the active language.
+   * @returns {string} The selected quote string.
+   */
   function getDailyQuote(texts) {
     const todayKey = getDateKey();
     const storageKey = "proteinDailyQuote";
@@ -527,12 +702,17 @@
     return texts.motivationalQuotes[index];
   }
 
+  /* ==========================================================================
+   * 11. UI RENDERING
+   *
+   * Functions that refresh visual elements. updateUI() is the
+   * master repaint called on every state change and language switch.
+   * ========================================================================== */
+
   /**
-   * --- UI Functions ---
-   * Updates the entire UI based on the current drank state and language
-   * is called multiple times:
-   * - when language is changed
-   * DO NOT ADD ONE TIME CALLED FUNCTIONS HERE, they should be in init() or separate functions called from init()
+   * Set the SVG progress ring fill based on how many of the last 7 days
+   * the user drank protein. Adds a "complete" class when all 7 are filled.
+   * @param {number} weeklyCount - Number of days (0-7) drank this week.
    */
   function updateProgressRing(weeklyCount) {
     const fillEl = document.getElementById("progress-ring-fill");
@@ -554,6 +734,10 @@
     }
   }
 
+  /**
+   * Count how many of the last 7 app-days appear in history.
+   * @returns {number} 0-7
+   */
   function getWeeklyCount() {
     const history = getHistory();
     const historySet = new Set(history);
@@ -572,6 +756,11 @@
     return Math.min(count, 7);
   }
 
+  /**
+   * Display a milestone badge (icon + label) for the current streak.
+   * Hidden when streak is 0.
+   * @param {number} streak - Current streak length.
+   */
   function updateStreakBadge(streak) {
     const badge = document.getElementById("streak-badge");
     const iconEl = document.getElementById("streak-badge-icon");
@@ -597,6 +786,16 @@
     }
   }
 
+  /**
+   * Master UI repaint: translates every visible string, toggles the
+   * arm icons, refreshes stats/badges/heatmap/ring, and updates the
+   * history log. Called on every state change and language switch.
+   *
+   * NOTE: Only place reusable, idempotent updates here.
+   * One-time setup belongs in init().
+   *
+   * @param {boolean} drank - Whether the user has drank today.
+   */
   function updateUI(drank) {
     const dateKey = getDateKey();
     const stored = loadState();
@@ -677,6 +876,10 @@
     if (quoteEl) quoteEl.textContent = getDailyQuote(texts);
   }
 
+  /**
+   * Render the last-7-days strip (narrow weekday labels + status icons)
+   * into the #history-log container.
+   */
   function updateHistoryLog() {
     const logContainer = document.getElementById("history-log");
     if (!logContainer) return;
@@ -722,6 +925,14 @@
     logContainer.innerHTML = html;
   }
 
+  /* ==========================================================================
+   * 13. NOTIFICATION HELPERS
+   * ========================================================================== */
+
+  /**
+   * Handle the main toggle button press: flip drank state, repaint UI,
+   * fire confetti + haptic feedback, and push a notification via SW.
+   */
   function handleToggle() {
     const drank = toggleDrank();
     updateUI(drank);
@@ -746,6 +957,11 @@
     }
   }
 
+  /**
+   * Show a transient floating toast at the top-right corner.
+   * Auto-dismisses after 3 seconds with a slide-out animation.
+   * @param {string} message - Text to display.
+   */
   function showNotificationAlert(message) {
     const alert = document.createElement("div");
     alert.textContent = message;
@@ -772,7 +988,14 @@
     }, 3000);
   }
 
-    /* ── HISTORY TABLE ── */
+  /* ==========================================================================
+   * 12. HISTORY TABLE & EXPORT (CSV / PDF)
+   * ========================================================================== */
+
+  /**
+   * Populate the full history <table> sorted newest-first.
+   * Shows an empty-state message when there is no data.
+   */
   function updateHistoryTable() {
     const stored = loadState();
     const history = stored.history || [];
@@ -805,7 +1028,10 @@
     }).join('');
   }
 
-  /* ── CSV EXPORT ── */
+  /**
+   * Build a CSV string from the drink history and trigger a download.
+   * Column headers are pulled from the active translation.
+   */
   function exportCSV() {
     const stored = loadState();
     const history = stored.history || [];
@@ -830,7 +1056,10 @@
     a.click();
   }
 
-  /* ── PDF EXPORT ── */
+  /**
+   * Generate a dark-themed A4 PDF of the drink history using jsPDF.
+   * Includes a branded header, table rows, and a footer summary.
+   */
   function exportPDF() {
     const stored = loadState();
     const history = stored.history || [];
@@ -910,7 +1139,15 @@
     doc.save('protein-history.pdf');
   }
 
+  /* ==========================================================================
+   * 14. INITIALIZATION & EVENT BINDING
+   *
+   * Bootstraps the entire app: attaches DOM listeners, registers
+   * the service worker, starts the clock, and kicks off the first
+   * UI paint.
+   * ========================================================================== */
 
+  /** Entry point: wire up all event listeners and perform the first render. */
   function init() {
     confetti.init();
     const drank = getCurrentDrank();
@@ -982,6 +1219,7 @@
     }
   }
 
+  /* Start the app as soon as the DOM is ready. */
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {
