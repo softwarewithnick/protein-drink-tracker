@@ -1,130 +1,174 @@
-# ProteinTracker PWA
+# Protein Drink Tracker
 
-Welcome to **ProteinTracker PWA**! 🥤
+A **Progressive Web App** for tracking your daily protein drink intake. Works fully offline, supports 7 languages, and includes gamification features like streaks, badges, and heatmaps.
 
-Link to live app: [protein-shake-tracker.netlify.app](https://protein-shake-tracker.netlify.app/)
+**Live app:** [protein-shake-tracker.netlify.app](https://protein-shake-tracker.netlify.app/)
 
-You can get this app onto your phone for free by selecting the "Add to Home" option on your mobile browser.
-
-This is a simple Progressive Web App to track your daily protein drink intake.  
-This project is **open-source** and primarily for **educational purposes**, so small features, bug fixes, and improvements are all welcome.
-Below is a description of steps to follow to contribute to this project.
-
-Additionally, here are some YouTube videos that walk through contributing to opensource projects!
-
-* https://www.youtube.com/watch?v=dLRA1lffWBw
-
-* https://www.youtube.com/watch?v=CML6vfKjQss
-
-**DON'T BE AFRAID TO FORK YOUR OWN REPO AND PLAY AROUND WITH THE CODE, ADD NEW FEATURES, TEST THINGS OUT!**
----
-
-## Contributing Guide
-
-We encourage contributions from everyone. This guide explains step-by-step how to contribute via **pull requests (PRs)**.
-
-### 1. Fork the Repository
-
-Click the **Fork** button at the top-right of the GitHub page.  
-This creates a copy of the repository under your own GitHub account where you have write access.
+> Install it on your phone for free: open the link above in your mobile browser and tap **"Add to Home Screen"**.
 
 ---
 
-### 2. Create a Branch
+## Features
 
-Create a new branch for your changes instead of working on `main` directly:
+- One-tap daily protein tracking with undo
+- Streak counter and milestone badges (7, 14, 30, 100 days)
+- Weekly progress ring and 365-day heatmap
+- Monthly stats with completion percentage
+- Dark / light theme (auto-detects OS preference)
+- 7 languages: English, French, Dutch, Turkish, Arabic, Spanish, Swedish
+- Motivational daily quotes
+- Full history table with CSV and PDF export
+- World clock strip (7 cities)
+- Push notification reminders
+- Fully offline via service worker
+
+---
+
+## Quick Start
+
+No build tools required. The app is plain HTML, CSS, and JavaScript.
+
+```bash
+# 1. Clone (or fork first, then clone your fork)
+git clone https://github.com/softwarewithnick/protein-drink-tracker.git
+cd protein-drink-tracker
+
+# 2. Serve locally (any static server works)
+npx serve .
+# or: python3 -m http.server 8000
+# or just open index.html in your browser
+```
+
+Open `http://localhost:3000` (or whatever port your server uses) and you are ready to go.
+
+---
+
+## Project Structure
+
+```
+protein-drink-tracker/
+|-- index.html           # Main PWA shell
+|-- protein-food.html    # Protein food chart page
+|-- app.js               # Core application logic (14 sections)
+|-- sw.js                # Service worker (offline + notifications)
+|-- translations.js      # i18n dictionary (7 languages)
+|-- styles.css           # Design system (17 sections)
+|-- manifest.json        # PWA manifest
+|-- icons/               # App icons (SVG)
+|-- images/              # Illustrations (drank / not-drank)
+|-- ARCHITECTURE.md      # Detailed technical reference
++-- README.md            # This file
+```
+
+For a deep dive into every function, data flow, and constant, see **[ARCHITECTURE.md](ARCHITECTURE.md)**.
+
+---
+
+## Contributing
+
+This project is **open-source** and built for **learning**. Contributions of all sizes are welcome -- from typo fixes to new features.
+
+**Don't be afraid to fork the repo and experiment!**
+
+### Video Tutorials
+
+If you are new to open-source contributions, these videos walk through the process:
+
+- [How to Contribute to Open Source](https://www.youtube.com/watch?v=dLRA1lffWBw)
+- [Your First Pull Request](https://www.youtube.com/watch?v=CML6vfKjQss)
+
+### Step-by-Step Guide
+
+#### 1. Fork & Clone
+
+Click **Fork** at the top-right of the GitHub page, then clone your fork:
+
+```bash
+git clone https://github.com/<your-username>/protein-drink-tracker.git
+cd protein-drink-tracker
+```
+
+#### 2. Create a Branch
+
+Always work on a new branch -- never commit directly to `main`:
 
 ```bash
 git checkout -b feature/my-feature
 ```
-Use a descriptive branch name like fix/button-color or feature/dark-mode.
 
----
+Use a descriptive name like `fix/button-color` or `feature/dark-mode`.
 
-### 3. Make Your Changes
-* Add features, fix bugs, or improve documentation.
+#### 3. Make Your Changes
 
-* Keep your code clean, readable, and self-contained.
+- Read **[ARCHITECTURE.md](ARCHITECTURE.md)** to understand how the code is organized.
+- Keep changes focused and self-contained.
+- Follow the existing code style (see the JSDoc comments and section headers in each file).
+- Test your changes locally by serving the app and clicking through the UI.
 
-* Commit your changes with a descriptive message:
+#### 4. Commit & Push
 
 ```bash
-git add .
+git add <files-you-changed>
 git commit -m "Add dark mode toggle"
-```
-
----
-
-### 4. Push Your Branch to Your Fork
-
-Push the branch with your changes to your fork:
-```bash
 git push origin feature/my-feature
 ```
 
----
+Write clear, descriptive commit messages. Only stage the files you actually changed (avoid `git add .`).
 
-### 5. Open a Pull Request (PR)
+#### 5. Open a Pull Request
 
 1. Go to your fork on GitHub.
+2. Click **Compare & pull request**.
+3. Set the base repository to `softwarewithnick/protein-drink-tracker` and the base branch to `main`.
+4. Give your PR a descriptive title and explain:
+   - **What** you changed
+   - **Why** the change is useful
+   - Reference any related issue (e.g. `Closes #5`)
+5. Submit the PR.
 
-2. Click Compare & pull request.
+#### 6. Review & Iterate
 
-3. Make sure the base repository is softwarewithnick/ProteinTracker and the base branch is main.
+- A maintainer will review your PR and may request changes -- this is normal and part of the learning process.
+- Push updates to the **same branch**; the PR updates automatically.
+- Once approved, your changes will be merged.
 
-4. Give your PR a descriptive title and provide a clear description:
+#### 7. Stay in Sync
 
-   * What changes you made
+If other changes are merged while your PR is open:
 
-   * Why these changes are useful
-
-   * Reference any related issue (e.g., Closes #5) if applicable
-
-   * Submit the PR.
-
-5. Small contributions are absolutely welcome! Even tiny fixes or minor UI improvements help the project.
-
----
-
-### 6. PR Review
-
-* Maintainers will review your PR.
-
-* They may request changes or provide feedback — this is normal.
-
-* Push updates to the same branch; your PR will automatically update.
-
-* Once approved, your PR will be merged into main.
-
----
-
-### 7. Stay in Sync
-
-If other changes are merged while your PR is open, keep your fork up-to-date:
 ```bash
+git remote add upstream https://github.com/softwarewithnick/protein-drink-tracker.git
 git fetch upstream
 git checkout main
 git merge upstream/main
+git push origin main
 ```
-Replace upstream with the remote pointing to the original repository.
 
----
+#### 8. (Optional) Open an Issue First
 
-### 8. Optional: Opening Issues First
-
-For larger changes or new features, it’s helpful to open an issue first:
+For larger changes or new features, open an issue before starting work:
 
 1. Describe the problem or feature idea.
-2. Wait for discussion or approval before starting work.
-3. Reference the issue in your PR (e.g., `Closes #10`).
+2. Wait for discussion or approval.
+3. Reference the issue in your PR (e.g. `Closes #10`).
 
-> This keeps the project organized and prevents duplicate effort.
+This keeps the project organized and prevents duplicate effort.
 
 ---
 
-## Notes
+## Contribution Ideas
 
-- This project is **educational**, so experimentation is encouraged.
-- Every contribution counts — from small bug fixes to new features.
-- Make sure to write clear commit messages.
-- Thank you for helping make ProteinTracker better! 🎉
+Not sure where to start? Here are some beginner-friendly ideas:
+
+- **Add a new language** -- see the "Adding a New Language" section in [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Add a new protein food** to the chart page
+- **Fix a UI bug** on mobile or a specific browser
+- **Improve accessibility** (ARIA labels, keyboard navigation)
+- **Write better error handling** for edge cases
+- **Add a new badge milestone** (e.g. 50-day streak)
+
+---
+
+## License
+
+This project is open-source and primarily for educational purposes. Every contribution counts -- from small bug fixes to new features. Thank you for helping make Protein Drink Tracker better!

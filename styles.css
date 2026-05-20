@@ -1,4 +1,34 @@
-/* Variables & Reset */
+/**
+ * Protein Drink Tracker - Stylesheet
+ *
+ * Design system built on CSS custom properties (variables) with
+ * automatic dark/light theme switching via the data-theme attribute
+ * on <html>.  Glass-morphism, gradients, and subtle animations
+ * give the UI a modern PWA feel.
+ *
+ * Sections:
+ *   1. Theme Variables & Reset
+ *   2. App Shell (header, confetti canvas)
+ *   3. Hero & Progress Ring
+ *   4. Streak Badge & Gamification
+ *   5. Language Selector & Theme Toggle
+ *   6. Main Content Layout
+ *   7. Tracker Card Elements
+ *   8. History Log (7-day strip)
+ *   9. Motivational Quote
+ *  10. Toggle / Action Buttons
+ *  11. Footer World Clocks
+ *  12. Badges & Monthly Stats
+ *  13. Heatmap (365-day grid)
+ *  14. Responsive Breakpoints
+ *  15. Animations & Reduced-Motion
+ *  16. History Table & Export
+ *  17. Notification Toast Animations
+ */
+
+/* ==========================================================================
+ * 1. THEME VARIABLES & RESET
+ * ========================================================================== */
 :root {
   /* Dark Theme (Default) */
   --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #1a1a2e 40%, #16213e 70%, #0f3460 100%);
@@ -52,7 +82,9 @@
   box-sizing: border-box;
 }
 
-/* App Container */
+/* ==========================================================================
+ * 2. APP SHELL
+ * ========================================================================== */
 body {
   margin: 0;
   min-height: 100vh;
@@ -155,7 +187,7 @@ body {
   margin-top: 4px;
 }
 
-/* Confetti Canvas */
+/* Confetti overlay - full-screen, click-through canvas for particle effects. */
 #confetti-canvas {
   position: fixed;
   top: 0;
@@ -166,7 +198,9 @@ body {
   z-index: 9999;
 }
 
-/* Hero Section */
+/* ==========================================================================
+ * 3. HERO & PROGRESS RING
+ * ========================================================================== */
 .hero-section {
   display: flex;
   flex-direction: column;
@@ -230,7 +264,9 @@ body {
   transform-origin: 60px 60px;
 }
 
-/* Streak Badge */
+/* ==========================================================================
+ * 4. STREAK BADGE & GAMIFICATION
+ * ========================================================================== */
 .streak-badge {
   display: inline-flex;
   align-items: center;
@@ -264,7 +300,9 @@ body {
 .streak-badge.milestone-30 { border-color: #e94560; box-shadow: 0 0 20px rgba(233, 69, 96, 0.2); }
 .streak-badge.milestone-100 { border-color: #f1c40f; box-shadow: 0 0 25px rgba(241, 196, 15, 0.3); }
 
-/* Language Selector */ 
+/* ==========================================================================
+ * 5. LANGUAGE SELECTOR & THEME TOGGLE
+ * ========================================================================== */
 .lang-select {
   background: var(--card-bg);
   color: var(--text-main);
@@ -320,7 +358,9 @@ body {
   transform: rotate(15deg);
 }
 
-/* Main Content Area */
+/* ==========================================================================
+ * 6. MAIN CONTENT LAYOUT
+ * ========================================================================== */
 .main-content {
   flex: 1 0 auto;
   display: flex;
@@ -376,7 +416,9 @@ body {
   box-shadow: 0 4px 15px var(--shadow-color);
 }
 
-/* Elements inside the Tracker */
+/* ==========================================================================
+ * 7. TRACKER CARD ELEMENTS
+ * ========================================================================== */
 .date-text {
   font-size: 1rem;
   color: var(--text-muted);
@@ -441,7 +483,9 @@ body {
   animation: pulse 2s infinite;
 }
 
-/* History Log */
+/* ==========================================================================
+ * 8. HISTORY LOG (7-day strip)
+ * ========================================================================== */
 .history-log {
   display: flex;
   justify-content: center;
@@ -477,7 +521,9 @@ body {
   line-height: 1;
 }
 
-/* Motivational Quote */
+/* ==========================================================================
+ * 9. MOTIVATIONAL QUOTE
+ * ========================================================================== */
 .motivational-quote {
   font-size: 0.95rem;
   font-weight: bold;
@@ -488,7 +534,9 @@ body {
   opacity: 0.9;
 }
 
-/* Toggle Button */
+/* ==========================================================================
+ * 10. TOGGLE / ACTION BUTTONS
+ * ========================================================================== */
 .toggle-btn {
   padding: 1rem 2.5rem;
   font-size: 1.1rem;
@@ -544,7 +592,9 @@ body {
   margin: 0;
 }
 
-/* Footer Clocks - Pin to the bottom center */
+/* ==========================================================================
+ * 11. FOOTER WORLD CLOCKS
+ * ========================================================================== */
 .footer-clocks {
   position: absolute;
   bottom: 1.5rem; 
@@ -584,7 +634,9 @@ body {
   font-size: 0.9rem;
 }
 
-/* --- Badges & Gamification --- */
+/* ==========================================================================
+ * 12. BADGES & MONTHLY STATS
+ * ========================================================================== */
 .section-title {
   font-size: 1.1rem;
   color: var(--text-muted);
@@ -669,7 +721,9 @@ body {
   transition: width 0.8s ease-in-out;
 }
 
-/* --- GitHub-Style Heatmap --- */
+/* ==========================================================================
+ * 13. HEATMAP (365-day grid)
+ * ========================================================================== */
 .heatmap-section {
   width: 100%;
   margin: 0; 
@@ -722,7 +776,11 @@ body {
   background-color: var(--success-color);
 }
 
-/* Desktop Media Query (Laptops/Desktops) */
+/* ==========================================================================
+ * 14. RESPONSIVE BREAKPOINTS
+ * ========================================================================== */
+
+/* Desktop: side-by-side tracker + dashboard layout. */
 @media (min-width: 900px) {
   .content-wrapper {
     flex-direction: row; 
@@ -741,7 +799,7 @@ body {
   }
 }
 
-/* MOBILE RESPONSIVE TWEAKS */
+/* Mobile: stack cards, shrink header, inline footer. */
 @media (max-width: 600px) {
   .app-header {
     padding: 0.8rem 1rem;
@@ -791,7 +849,9 @@ body {
   }
 }
 
-/* Animations & Prefs */
+/* ==========================================================================
+ * 15. ANIMATIONS & REDUCED-MOTION
+ * ========================================================================== */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -815,7 +875,9 @@ body {
   }
 }
 
-/* ── HISTORY TABLE SECTION ── */
+/* ==========================================================================
+ * 16. HISTORY TABLE & EXPORT
+ * ========================================================================== */
 .history-table-section {
   width: 100%;
   max-width: 620px;
@@ -945,7 +1007,9 @@ body {
   font-size: 0.9rem;
 }
 
-/* Notification Alert Animations */
+/* ==========================================================================
+ * 17. NOTIFICATION TOAST ANIMATIONS
+ * ========================================================================== */
 @keyframes slideIn {
   from {
     transform: translateX(400px);
