@@ -599,6 +599,15 @@ const translations = {
     historyTableTimeLogged: "ČAS ZAZNAMENÁNÍ",
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
+    cities: {
+      newYork: "New York",
+      london: "Londýn",
+      istanbul: "Istanbul",
+      tokyo: "Tokio",
+      sydney: "Sydney",
+      santoDomingo: "Santo Domingo",
+      stockholm: "Stockholm"
+    }
   },
   /* ---- Russian ---- */
   ru: {
@@ -654,5 +663,14 @@ const translations = {
     historyTableTimeLogged: "ВРЕМЯ ЗАПИСИ",
     historyTableStatus: "СТАТУС",
     alertNoHistoryExport: "Пока нет данных для экспорта!",
+    cities: {
+      newYork: "Нью-Йорк",
+      london: "Лондон",
+      istanbul: "Стамбул",
+      tokyo: "Токио",
+      sydney: "Сидней",
+      santoDomingo: "Санто-Доминго",
+      stockholm: "Стокгольм"
+    }
   }
 };
