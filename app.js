@@ -1152,7 +1152,7 @@ const WORLD_CITIES = [
     confetti.init();
     const drank = getCurrentDrank();
 
-    const langSelect = document.getElementById("lang-select");
+  const langSelect = document.getElementById("lang-select");
     if (langSelect) {
       langSelect.value = currentLang;
       langSelect.addEventListener("change", (e) => {
@@ -1160,6 +1160,7 @@ const WORLD_CITIES = [
         localStorage.setItem(LANG_KEY, currentLang);
         updateUI(getCurrentDrank());
         initWorldClocks();
+        updateClock();
       });
     }
 
