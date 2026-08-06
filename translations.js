@@ -86,6 +86,15 @@ const translations = {
     historyTableTimeLogged: "TIME LOGGED",
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
+    cities: {
+      newYork: "New York",
+      london: "London",
+      istanbul: "Istanbul",
+      tokyo: "Tokyo",
+      sydney: "Sydney",
+      santoDomingo: "Santo Domingo",
+      stockholm: "Stockholm"
+    }
   },
   /* ---- French ---- */
   fr: {
@@ -101,8 +110,7 @@ const translations = {
     progressLabel: "/7 jours",
     // Protein Food Page
     proteinSourcesTitle: "Sources de Protéines",
-    proteinFoodPageTitle:
-      "Meilleurs Aliments Naturels Riches en Protéines (par 100g)",
+    proteinFoodPageTitle: "Meilleurs Aliments Naturels Riches en Protéines (par 100g)",
     backToTracker: "← Retour au Suivi",
     proteinLabel: "Protéine (g)",
     proteinContent: "Contenu en Protéines (grammes)",
@@ -133,15 +141,24 @@ const translations = {
     hideStatsBtn: "Masquer les statistiques mensuelles 📊",
     yearlyConsistencyTitle: "Régularité annuelle",
     monthlyStatsCompleted: "{days} sur {total} jours terminés ({percent}%)",
-    fullHistoryTitle: "📋 Full History",
+    fullHistoryTitle: "📋 Historique complet",
     exportCsvBtn: "⬇ CSV",
     exportPdfBtn: "⬇ PDF",
     historyTableDate: "DATE",
-    historyTableDay: "DAY",
-    historyEmpty: "No history yet. Start tracking your protein! 💪",
-    historyTableTimeLogged: "TIME LOGGED",
-    historyTableStatus: "STATUS",
-    alertNoHistoryExport: "No history to export yet!",
+    historyTableDay: "JOUR",
+    historyEmpty: "Pas encore d'historique. Commencez à suivre vos protéines ! 💪",
+    historyTableTimeLogged: "HEURE ENREGISTRÉE",
+    historyTableStatus: "STATUT",
+    alertNoHistoryExport: "Pas encore d'historique à exporter !",
+    cities: {
+      newYork: "New York",
+      london: "Londres",
+      istanbul: "Istanbul",
+      tokyo: "Tokyo",
+      sydney: "Sydney",
+      santoDomingo: "Saint-Domingue",
+      stockholm: "Stockholm"
+    }
   },
   /* ---- Dutch ---- */
   nl: {
@@ -157,8 +174,7 @@ const translations = {
     progressLabel: "/7 dagen",
     // Protein Food Page
     proteinSourcesTitle: "Eiwitbronnen",
-    proteinFoodPageTitle:
-      "Beste Natuurlijke Eiwitrijke Voedingsmiddelen (per 100g)",
+    proteinFoodPageTitle: "Beste Natuurlijke Eiwitrijke Voedingsmiddelen (per 100g)",
     backToTracker: "← Terug naar Tracker",
     proteinLabel: "Eiwit (g)",
     proteinContent: "Eiwitgehalte (grammen)",
@@ -189,15 +205,24 @@ const translations = {
     hideStatsBtn: "Verberg maandelijkse statistieken 📊",
     yearlyConsistencyTitle: "Jaarlijkse consistentie",
     monthlyStatsCompleted: "{days} van {total} dagen voltooid ({percent}%)",
-    fullHistoryTitle: "📋 Full History",
+    fullHistoryTitle: "📋 Volledige geschiedenis",
     exportCsvBtn: "⬇ CSV",
     exportPdfBtn: "⬇ PDF",
-    historyTableDate: "DATE",
-    historyTableDay: "DAY",
-    historyEmpty: "No history yet. Start tracking your protein! 💪",
-    historyTableTimeLogged: "TIME LOGGED",
+    historyTableDate: "DATUM",
+    historyTableDay: "DAG",
+    historyEmpty: "Nog geen geschiedenis. Begin je eiwit bij te houden! 💪",
+    historyTableTimeLogged: "TIJD GEREGISTREERD",
     historyTableStatus: "STATUS",
-    alertNoHistoryExport: "No history to export yet!",
+    alertNoHistoryExport: "Nog geen geschiedenis om te exporteren!",
+    cities: {
+      newYork: "New York",
+      london: "Londen",
+      istanbul: "Istanboel",
+      tokyo: "Tokio",
+      sydney: "Sydney",
+      santoDomingo: "Santo Domingo",
+      stockholm: "Stockholm"
+    }
   },
   /* ---- Arabic (RTL) ---- */
   ar: {
@@ -213,8 +238,7 @@ const translations = {
     progressLabel: "/٧ أيام",
     // Protein Food Page
     proteinSourcesTitle: "مصادر البروتين",
-    proteinFoodPageTitle:
-      "أفضل الأطعمة الطبيعية الغنية بالبروتين (لكل 100 جرام)",
+    proteinFoodPageTitle: "أفضل الأطعمة الطبيعية الغنية بالبروتين (لكل 100 جرام)",
     backToTracker: "← العودة إلى المتعقب",
     proteinLabel: "بروتين (جرام)",
     proteinContent: "محتوى البروتين (بالجرام)",
@@ -246,15 +270,24 @@ const translations = {
     hideStatsBtn: "إخفاء الإحصائيات الشهرية 📊",
     yearlyConsistencyTitle: "الاستمرارية السنوية",
     monthlyStatsCompleted: "تم إنجاز {days} من أصل {total} يومًا ({percent}%)",
-    fullHistoryTitle: "📋 Full History",
+    fullHistoryTitle: "📋 السجل الكامل",
     exportCsvBtn: "⬇ CSV",
     exportPdfBtn: "⬇ PDF",
-    historyTableDate: "DATE",
-    historyTableDay: "DAY",
-    historyEmpty: "No history yet. Start tracking your protein! 💪",
-    historyTableTimeLogged: "TIME LOGGED",
-    historyTableStatus: "STATUS",
-    alertNoHistoryExport: "No history to export yet!",
+    historyTableDate: "التاريخ",
+    historyTableDay: "اليوم",
+    historyEmpty: "لا يوجد سجل بعد. ابدأ تتبع بروتينك! 💪",
+    historyTableTimeLogged: "الوقت المسجل",
+    historyTableStatus: "الحالة",
+    alertNoHistoryExport: "لا يوجد سجل للتصدير بعد!",
+    cities: {
+      newYork: "نيويورك",
+      london: "لندن",
+      istanbul: "إسطنبول",
+      tokyo: "طوكيو",
+      sydney: "سيدني",
+      santoDomingo: "سانتو دومينغو",
+      stockholm: "ستوكهولم"
+    }
   },
   /* ---- Turkish ---- */
   tr: {
@@ -270,8 +303,7 @@ const translations = {
     progressLabel: "/7 gün",
     // Protein Food Page
     proteinSourcesTitle: "Protein Kaynakları",
-    proteinFoodPageTitle:
-      "En İyi Doğal Protein Açısından Zengin Gıdalar (100g başına)",
+    proteinFoodPageTitle: "En İyi Doğal Protein Açısından Zengin Gıdalar (100g başına)",
     backToTracker: "← Takipçiye Geri Dön",
     proteinLabel: "Protein (g)",
     proteinContent: "Protein İçeriği (gramlar)",
@@ -303,15 +335,24 @@ const translations = {
     hideStatsBtn: "Aylık İstatistikleri Gizle 📊",
     yearlyConsistencyTitle: "Yıllık Tutarlılık",
     monthlyStatsCompleted: "{total} günün {days} günü tamamlandı ({percent}%)",
-    fullHistoryTitle: "📋 Full History",
+    fullHistoryTitle: "📋 Tam Geçmiş",
     exportCsvBtn: "⬇ CSV",
     exportPdfBtn: "⬇ PDF",
-    historyTableDate: "DATE",
-    historyTableDay: "DAY",
-    historyEmpty: "No history yet. Start tracking your protein! 💪",
-    historyTableTimeLogged: "TIME LOGGED",
-    historyTableStatus: "STATUS",
-    alertNoHistoryExport: "No history to export yet!",
+    historyTableDate: "TARİH",
+    historyTableDay: "GÜN",
+    historyEmpty: "Henüz geçmiş yok. Proteini takip etmeye başla! 💪",
+    historyTableTimeLogged: "KAYIT SAATİ",
+    historyTableStatus: "DURUM",
+    alertNoHistoryExport: "Henüz dışa aktarılacak geçmiş yok!",
+    cities: {
+      newYork: "New York",
+      london: "Londra",
+      istanbul: "İstanbul",
+      tokyo: "Tokyo",
+      sydney: "Sidney",
+      santoDomingo: "Santo Domingo",
+      stockholm: "Stokholm"
+    }
   },
   /* ---- Spanish ---- */
   es: {
@@ -358,15 +399,24 @@ const translations = {
     hideStatsBtn: "Ocultar Estadísticas Mensuales 📊",
     yearlyConsistencyTitle: "Constancia Anual",
     monthlyStatsCompleted: "{days} de {total} días completados ({percent}%)",
-    fullHistoryTitle: "📋 Full History",
+    fullHistoryTitle: "📋 Historial Completo",
     exportCsvBtn: "⬇ CSV",
     exportPdfBtn: "⬇ PDF",
-    historyTableDate: "DATE",
-    historyTableDay: "DAY",
-    historyEmpty: "No history yet. Start tracking your protein! 💪",
-    historyTableTimeLogged: "TIME LOGGED",
-    historyTableStatus: "STATUS",
-    alertNoHistoryExport: "No history to export yet!",
+    historyTableDate: "FECHA",
+    historyTableDay: "DÍA",
+    historyEmpty: "Aún no hay historial. ¡Empieza a registrar tu proteína! 💪",
+    historyTableTimeLogged: "HORA REGISTRADA",
+    historyTableStatus: "ESTADO",
+    alertNoHistoryExport: "¡Aún no hay historial para exportar!",
+    cities: {
+      newYork: "Nueva York",
+      london: "Londres",
+      istanbul: "Estambul",
+      tokyo: "Tokio",
+      sydney: "Sídney",
+      santoDomingo: "Santo Domingo",
+      stockholm: "Estocolmo"
+    }
   },
   /* ---- Swedish ---- */
   sv: {
@@ -421,8 +471,82 @@ const translations = {
     historyTableTimeLogged: "TID LOGGAD",
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "Ingen historik att exportera än!",
+    cities: {
+      newYork: "New York",
+      london: "London",
+      istanbul: "Istanbul",
+      tokyo: "Tokyo",
+      sydney: "Sydney",
+      santoDomingo: "Santo Domingo",
+      stockholm: "Stockholm"
+    }
   },
-    cz: {
+  //Portuguese
+  pt: {
+    title: "Registo de Bebidas de Proteína",
+    proteinFoodListBtn: "Lista de Alimentos Ricos em Proteína (Naturais)",
+    btnDrank: "Bebi a minha proteína",
+    btnDrankUndo: "Desfazer",
+    statusDone: "Proteína concluída hoje.",
+    statusNotDone: "Ainda não hoje.",
+    statusStreak: "dia(s) consecutivos!",
+    localTime: "Hora Local",
+    lastDrankLabel: "Última ingestão às",
+    progressLabel: "/7 dias",
+    // Protein Food Page
+    proteinSourcesTitle: "Fontes de Proteína",
+    proteinFoodPageTitle: "Principais Alimentos Naturais Ricos em Proteína (por 100g)",
+    backToTracker: "← Voltar ao Registo",
+    proteinLabel: "Proteína (g)",
+    proteinContent: "Conteúdo de Proteína (gramas)",
+    foods: {
+      soybeans: "Soja",
+      chickenBreast: "Peito de frango",
+      peanutButter: "Manteiga de amendoim",
+      salmon: "Salmão",
+      almonds: "Amêndoas",
+      paneer: "Paneer",
+      eggs: "Ovos",
+      greekYogurt: "Iogurte grego",
+      lentils: "Lentilhas",
+    },
+    motivationalQuotes: [
+      "Mantém-te forte! 💪",
+      "A consistência é a chave! 🔑",
+      "Um gole de cada vez! 🥤",
+      "Alimenta o teu corpo! ⚡",
+      "Estás a ir muito bem! 🌟",
+      "Hidrata-te e prospera! 💧",
+      "Mantém a sequência! 🔥",
+      "Poder da proteína! 🏋️‍♂️",
+    ],
+    filters: { all: "Todos", vegan: "Vegan", vegetarian: "Vegetariano", meat: "Carne" },
+    achievementsTitle: "Conquistas",
+    showStatsBtn: "Mostrar Estatísticas Mensais 📊",
+    hideStatsBtn: "Ocultar Estatísticas Mensais 📊",
+    yearlyConsistencyTitle: "Consistência Anual",
+    monthlyStatsCompleted: "{days} de {total} dia(s) concluídos ({percent}%)",
+    fullHistoryTitle: "📋 Histórico Completo",
+    exportCsvBtn: "⬇ CSV",
+    exportPdfBtn: "⬇ PDF",
+    historyTableDate: "DATA",
+    historyTableDay: "DIA",
+    historyEmpty: "Ainda não há histórico. Começa a registar a tua proteína! 💪",
+    historyTableTimeLogged: "HORA REGISTADA",
+    historyTableStatus: "ESTADO",
+    alertNoHistoryExport: "Ainda não há histórico para exportar!",
+    cities: {
+      newYork: "Nova Iorque",
+      london: "Londres",
+      istanbul: "Istambul",
+      tokyo: "Tóquio",
+      sydney: "Sydney",
+      santoDomingo: "Santo Domingo",
+      stockholm: "Estocolmo"
+    }
+  },
+  /* ---- Czech ---- */
+  cz: {
     title: "Protein Drink Tracker",
     proteinFoodListBtn: "List proteinových jídel (Naturální)",
     btnDrank: "Vypil jsem svůj protein",
@@ -475,6 +599,17 @@ const translations = {
     historyTableTimeLogged: "ČAS ZAZNAMENÁNÍ",
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
+    cities: {
+      newYork: "New York",
+      london: "Londýn",
+      istanbul: "Istanbul",
+      tokyo: "Tokio",
+      sydney: "Sydney",
+      santoDomingo: "Santo Domingo",
+      stockholm: "Stockholm"
+    }
+  },
+  /* ---- Russian ---- */
   ru: {
     title: "Трекер протеиновых напитков",
     proteinFoodListBtn: "Список продуктов с белком (натуральные)",
@@ -528,5 +663,14 @@ const translations = {
     historyTableTimeLogged: "ВРЕМЯ ЗАПИСИ",
     historyTableStatus: "СТАТУС",
     alertNoHistoryExport: "Пока нет данных для экспорта!",
-  },
+    cities: {
+      newYork: "Нью-Йорк",
+      london: "Лондон",
+      istanbul: "Стамбул",
+      tokyo: "Токио",
+      sydney: "Сидней",
+      santoDomingo: "Санто-Доминго",
+      stockholm: "Стокгольм"
+    }
+  }
 };

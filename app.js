@@ -63,16 +63,15 @@
     { min: 7, icon: "\uD83C\uDFC6", class: "milestone-7" },
   ];
 
-  /** Cities shown in the footer world-clock strip. */
-  const WORLD_CITIES = [
-    { name: "New York", timeZone: "America/New_York" },
-    { name: "London", timeZone: "Europe/London" },
-    { name: "İstanbul", timeZone: "Europe/Istanbul" },
-    { name: "Tokyo", timeZone: "Asia/Tokyo" },
-    { name: "Sydney", timeZone: "Australia/Sydney" },
-    { name: "Santo Domingo", timeZone: "America/Santo_Domingo" },
-    { name: "Stockholm", timeZone: "Europe/Stockholm" },
-  ];
+const WORLD_CITIES = [
+    { translationKey: "newYork", timeZone: "America/New_York" },
+    { translationKey: "london", timeZone: "Europe/London" },
+    { translationKey: "istanbul", timeZone: "Europe/Istanbul" },
+    { translationKey: "tokyo", timeZone: "Asia/Tokyo" },
+    { translationKey: "sydney", timeZone: "Australia/Sydney" },
+    { translationKey: "santoDomingo", timeZone: "America/Santo_Domingo" },
+    { translationKey: "stockholm", timeZone: "Europe/Stockholm" },
+];
 
   /* ==========================================================================
    * 2. CONFETTI ANIMATION SYSTEM
@@ -461,9 +460,10 @@
     if (container) {
       let html = "";
       WORLD_CITIES.forEach((city, index) => {
+        const translatedCityName = translations[currentLang].cities[city.translationKey];
         html += `
           <div class="world-clock-item">
-            <span class="city-name">${city.name}</span>
+            <span class="city-name">${translatedCityName}</span>
             <span class="city-time" id="world-clock-time-${index}">--:--</span>
           </div>
         `;
@@ -1152,13 +1152,15 @@
     confetti.init();
     const drank = getCurrentDrank();
 
-    const langSelect = document.getElementById("lang-select");
+  const langSelect = document.getElementById("lang-select");
     if (langSelect) {
       langSelect.value = currentLang;
       langSelect.addEventListener("change", (e) => {
         currentLang = e.target.value;
         localStorage.setItem(LANG_KEY, currentLang);
         updateUI(getCurrentDrank());
+        initWorldClocks();
+        updateClock();
       });
     }
 
