@@ -472,7 +472,7 @@ const translations = {
       "Ein Schluck nach dem anderen! 🥤",
       "Gib deinem Körper Energie! ⚡",
       "Du machst das super! 🌟",
-      "Hydrat bleiben, fit bleiben! 💧",
+      "Bleib hydriert, bleib fit! 💧",
       "Die Serie nicht brechen! 🔥",
       "Protein ist alles! 🏋️‍♂️",
     ],
