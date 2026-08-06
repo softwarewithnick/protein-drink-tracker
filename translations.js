@@ -1,5 +1,38 @@
-// 1. translation dictionary
+/**
+ * Internationalization (i18n) Dictionary
+ *
+ * Contains UI strings for every supported language. The active language
+ * code is stored in localStorage under the LANG_KEY constant defined
+ * in app.js.
+ *
+ * Supported languages:
+ *   en - English  (default / reference)
+ *   fr - French
+ *   nl - Dutch
+ *   ar - Arabic
+ *   tr - Turkish
+ *   es - Spanish
+ *   sv - Swedish
+ *
+ * How to add a new language:
+ *   1. Copy the entire "en" block as a template.
+ *   2. Add a new key using the ISO 639-1 code (e.g. "de" for German).
+ *   3. Translate every string value.
+ *   4. Add the language code to the <select id="lang-select"> in index.html.
+ *   5. (Optional) Add right-to-left handling in styles.css if needed.
+ *
+ * Key naming conventions:
+ *   - camelCase for all keys (e.g. btnDrank, statusDone).
+ *   - Placeholders use {name} syntax and are replaced at runtime
+ *     (e.g. "{days} of {total} days completed ({percent}%)").
+ *   - The "foods" sub-object maps internal food IDs to localized names
+ *     used on the protein-food.html chart page.
+ *   - The "motivationalQuotes" array is randomly sampled once per day.
+ *   - The "filters" sub-object provides labels for the food-chart
+ *     category filter buttons.
+ */
 const translations = {
+  /* ---- English (reference locale) ---- */
   en: {
     title: "Protein Drink Tracker",
     proteinFoodListBtn: "List of Protein Food (Natural)",
@@ -54,6 +87,7 @@ const translations = {
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
   },
+  /* ---- French ---- */
   fr: {
     title: "Suivi de Protéines",
     proteinFoodListBtn: "Liste des aliments protéinés (naturels)",
@@ -109,6 +143,7 @@ const translations = {
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
   },
+  /* ---- Dutch ---- */
   nl: {
     title: "Eiwitdrank Tracker",
     proteinFoodListBtn: "Lijst met eiwitrijke voedingsmiddelen (natuurlijk)",
@@ -164,6 +199,7 @@ const translations = {
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
   },
+  /* ---- Arabic (RTL) ---- */
   ar: {
     title: "متعقب مشروب البروتين",
     proteinFoodListBtn: "قائمة الأطعمة البروتينية (الطبيعية)",
@@ -220,6 +256,7 @@ const translations = {
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
   },
+  /* ---- Turkish ---- */
   tr: {
     title: "Proteinli İçecek Takipçisi",
     proteinFoodListBtn: "Protein İçeren Gıdalar Listesi (Doğal)",
@@ -276,6 +313,7 @@ const translations = {
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
   },
+  /* ---- Spanish ---- */
   es: {
     title: "Registro de Bebida de Proteína",
     proteinFoodListBtn: "Lista de Alimentos con Proteína (Naturales)",
@@ -330,6 +368,7 @@ const translations = {
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
   },
+  /* ---- Swedish ---- */
   sv: {
     title: "Protein Dryck Spårare",
     proteinFoodListBtn: "Proteinriktiga matvaror (Naturliga)",
@@ -436,5 +475,58 @@ const translations = {
     historyTableTimeLogged: "ČAS ZAZNAMENÁNÍ",
     historyTableStatus: "STATUS",
     alertNoHistoryExport: "No history to export yet!",
+  ru: {
+    title: "Трекер протеиновых напитков",
+    proteinFoodListBtn: "Список продуктов с белком (натуральные)",
+    btnDrank: "Я выпил протеин",
+    btnDrankUndo: "Отмена",
+    statusDone: "Норма белка на сегодня выполнена.",
+    statusNotDone: "Норма на сегодня не выполнена.",
+    statusStreak: "дней подряд!",
+    localTime: "Местное время",
+    lastDrankLabel: "Последний приём",
+    progressLabel: "/7 дней",
+    // Protein Food Page
+    proteinSourcesTitle: "Источники белка",
+    proteinFoodPageTitle: "Топ натуральной еды с белком (на 100 г.)",
+    backToTracker: "← Назад к трекеру",
+    proteinLabel: "Белок (г)",
+    proteinContent: "Содержание белка (граммы)",
+    foods: {
+      soybeans: "Соя",
+      chickenBreast: "Куриная грудка",
+      peanutButter: "Арахисовая паста",
+      salmon: "Лосось",
+      almonds: "Миндаль",
+      paneer: "Панир",
+      eggs: "Яйца",
+      greekYogurt: "Греческий йогурт",
+      lentils: "Чечевица",
+    },
+    motivationalQuotes: [
+      "Держись крепко! 💪",
+      "Постоянство - ключ! 🔑",
+      "По глотку за раз! 🥤",
+      "Заряди свой организм! ⚡",
+      "Молодец! 🌟",
+      "Пей и процветай! 💧",
+      "Не прерывай серию! 🔥",
+      "Сила в белке! 🏋️‍♂️",
+    ],
+    filters: { all: "Все", vegan: "Веганское", vegetarian: "Вегетарианское", meat: "Мясо" },
+    achievementsTitle: "Достижения",
+    showStatsBtn: "Показать статистику за месяц 📊",
+    hideStatsBtn: "Скрыть статистику за месяц 📊",
+    yearlyConsistencyTitle: "Годовая стабильность",
+    monthlyStatsCompleted: "{days} из {total} дней выполнено ({percent}%)",
+    fullHistoryTitle: "📋 Полная история",
+    exportCsvBtn: "⬇ CSV",
+    exportPdfBtn: "⬇ PDF",
+    historyTableDate: "ДАТА",
+    historyTableDay: "ДЕНЬ",
+    historyEmpty: "Истории пока нет. Начни отслеживать свой белок! 💪",
+    historyTableTimeLogged: "ВРЕМЯ ЗАПИСИ",
+    historyTableStatus: "СТАТУС",
+    alertNoHistoryExport: "Пока нет данных для экспорта!",
   },
 };

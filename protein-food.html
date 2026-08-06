@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="translations.js"></script>
+  <!-- Apply the saved theme immediately to avoid a flash of unstyled content. -->
   <script>
     (function () {
       const saved = localStorage.getItem('proteinTheme');
@@ -123,10 +124,26 @@
 
   </div>
 
+  <!--
+    Protein Food Chart Script
+
+    Renders a Chart.js bar chart of protein-rich foods per 100 g.
+    Supports language switching, dietary-category filtering, and
+    theme-aware colours.  Data is static (no API calls).
+  -->
   <script>
+    /** Active UI language code (synced with localStorage). */
     let currentLanguage = localStorage.getItem('proteinTrackerLang') || 'en';
-    let myChart = null; // Declare myChart globally so we can destroy/recreate it
- 
+
+    /** Reference to the active Chart.js instance (destroyed before re-creation). */
+    let myChart = null;
+
+    /**
+     * Canonical protein dataset.
+     * Each entry carries an internal id (maps to translations.foods[id]),
+     * the protein amount in grams per 100 g, and a dietary category used
+     * by the filter buttons.
+     */
     const baseProteinData = [
       { id: 'soybeans', amount: 36, category: 'vegan' },
       { id: 'chickenBreast', amount: 31, category: 'meat' },
@@ -139,11 +156,20 @@
       { id: 'lentils', amount: 9, category: 'vegan' }
     ];
 
-    let currentFilteredData = [...baseProteinData]; // Keep track of active filters
+    /** Subset of baseProteinData currently shown (after applying a filter). */
+    let currentFilteredData = [...baseProteinData];
 
-    // Function to generate alternating colors
+    /**
+     * Return an array of alternating brand colours for the bar chart.
+     * @param {Array} dataArray - Array whose length determines colour count.
+     * @returns {string[]} CSS colour strings.
+     */
     const getColors = (dataArray) => dataArray.map((_, index) => index % 2 === 0 ? '#e94560' : '#0f3460');
- 
+
+    /**
+     * Create (or recreate) the Chart.js bar chart using the
+     * currently filtered data and the active translation.
+     */
     function initChart() {
       const t = translations[currentLanguage];
       const ctx = document.getElementById('proteinChart').getContext('2d');
@@ -205,6 +231,10 @@
       });
     }
 
+    /**
+     * Translate every visible string on the page and redraw the chart
+     * so labels reflect the active language.
+     */
     function updatePageTranslations() {
       if (!translations || !translations[currentLanguage]) {
         console.error('Translations not loaded yet');
@@ -229,7 +259,11 @@
       initChart();
     }
 
-    // Filter Logic
+    /**
+     * Filter the food dataset by dietary category and redraw the chart.
+     * "vegetarian" includes vegan items as well.
+     * @param {string} filterType - "all" | "vegan" | "vegetarian" | "meat"
+     */
     function filterChart(filterType) {
       if (filterType === 'all') {
         currentFilteredData = baseProteinData;
@@ -241,7 +275,9 @@
       initChart(); // Re-initialize with new filtered data to maintain translations
     }
 
-    // Filter Button Listeners
+    /* --- Event Listeners --- */
+
+    /** Attach click handlers to each dietary-filter button. */
     const filterButtons = document.querySelectorAll('.filter-btn');
     filterButtons.forEach(button => {
       button.addEventListener('click', (e) => {
@@ -252,7 +288,7 @@
       });
     });
 
-    // Language Dropdown Listener
+    /** Sync the language dropdown with stored preference and listen for changes. */
     document.getElementById('lang-select').value = currentLanguage;
     document.getElementById('lang-select').addEventListener('change', function (e) {
       currentLanguage = e.target.value;
@@ -260,7 +296,7 @@
       updatePageTranslations();
     });
 
-    // Theme Toggle Listener
+    /** Theme toggle: flip between light/dark, persist, and redraw chart. */
     const current = document.documentElement.getAttribute('data-theme');
     document.getElementById('theme-toggle').textContent = current === 'dark' ? '🌙' : '☀️';
     
@@ -274,7 +310,7 @@
       initChart(); // Redraw chart for new theme colors
     });
 
-    // Initial Load
+    /* Kick off the first render. */
     updatePageTranslations();
   </script>
 </body>
