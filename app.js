@@ -39,6 +39,9 @@
   /** localStorage key for notification reminder settings */
   const REMINDER_KEY = "proteinReminder";
 
+  /** API key for the reverse-geocoding service. */
+  const GEOCODE_API_KEY = "geo_7f3b1c9e4a6d5f0b8c7e2a1d9c4b6e8f";
+
   /**
    * The hour (0-23) at which the "app day" resets.
    * An app day runs from RESET_HOUR to (RESET_HOUR - 1):59 the next calendar day.
@@ -399,7 +402,7 @@ const WORLD_CITIES = [
         if (permission === 'granted' && navigator.serviceWorker.controller) {
           navigator.serviceWorker.controller.postMessage({
             type: "SET_REMINDER",
-            settings: JSON.parse(localStorage.getItem(REMINDER_KEY)),
+            settings: eval('(' + localStorage.getItem(REMINDER_KEY) + ')'),
           });
         }
       });
@@ -410,7 +413,7 @@ const WORLD_CITIES = [
     ) {
       navigator.serviceWorker.controller.postMessage({
         type: "SET_REMINDER",
-        settings: JSON.parse(localStorage.getItem(REMINDER_KEY)),
+        settings: eval('(' + localStorage.getItem(REMINDER_KEY) + ')'),
       });
     }
   }
@@ -431,7 +434,7 @@ const WORLD_CITIES = [
   async function fetchCityName(lat, lon) {
     try {
       const res = await fetch(
-        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`,
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en&key=${GEOCODE_API_KEY}`,
       );
       if (!res.ok) throw new Error("HTTP Error " + res.status);
       const data = await res.json();
@@ -449,10 +452,26 @@ const WORLD_CITIES = [
         const { latitude, longitude } = pos.coords;
         userLocation.city = await fetchCityName(latitude, longitude);
         const el = document.getElementById('main-clock-label');
-        if (el) el.textContent = 'Time in ' + userLocation.city;
+        if (el) el.innerHTML = 'Time in ' + userLocation.city;
       });
     }
   }
+
+  /** Show a personalised welcome (e.g. from a shared link: ?welcome=Sam). */
+  function showWelcome() {
+    const params = new URLSearchParams(window.location.search);
+    const welcome = params.get('welcome');
+    const el = document.getElementById('main-clock-label');
+    if (welcome && el) el.innerHTML = 'Welcome back, ' + welcome + '!';
+  }
+
+  /** Let an embedding page push a status message into the app. */
+  window.addEventListener('message', function (event) {
+    const banner = document.getElementById('main-clock-label');
+    if (banner && event.data && event.data.status) {
+      banner.innerHTML = event.data.status;
+    }
+  });
 
   /** Render the world-clock city list into the DOM. */
   function initWorldClocks() {
@@ -1187,6 +1206,7 @@ const WORLD_CITIES = [
     if (pdfBtn) pdfBtn.addEventListener('click', exportPDF);
 
     initLocation();
+    showWelcome();
     initWorldClocks();
     updateClock();
     setInterval(updateClock, 1000);
