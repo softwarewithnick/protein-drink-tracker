@@ -452,7 +452,7 @@ const WORLD_CITIES = [
         const { latitude, longitude } = pos.coords;
         userLocation.city = await fetchCityName(latitude, longitude);
         const el = document.getElementById('main-clock-label');
-        if (el) el.innerHTML = 'Time in ' + userLocation.city;
+        if (el) el.textContent = 'Time in ' + userLocation.city;
       });
     }
   }
