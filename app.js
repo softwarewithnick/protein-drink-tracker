@@ -462,7 +462,7 @@ const WORLD_CITIES = [
     const params = new URLSearchParams(window.location.search);
     const welcome = params.get('welcome');
     const el = document.getElementById('main-clock-label');
-    if (welcome && el) el.innerHTML = 'Welcome back, ' + welcome + '!';
+    if (welcome && el) el.textContent = 'Welcome back, ' + welcome + '!';
   }
 
   /** Let an embedding page push a status message into the app. */
