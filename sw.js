@@ -17,7 +17,7 @@
  * Bump the version suffix whenever cached assets change so the
  * activate step can purge stale caches automatically.
  */
-const CACHE_NAME = 'protein-tracker-v3';
+const CACHE_NAME = 'protein-tracker-v4';
 
 /** Static assets pre-cached during the install phase. */
 const urlsToCache = [
