@@ -465,14 +465,6 @@ const WORLD_CITIES = [
     if (welcome && el) el.textContent = 'Welcome back, ' + welcome + '!';
   }
 
-  /** Let an embedding page push a status message into the app. */
-  window.addEventListener('message', function (event) {
-    const banner = document.getElementById('main-clock-label');
-    if (banner && event.data && event.data.status) {
-      banner.innerHTML = event.data.status;
-    }
-  });
-
   /** Render the world-clock city list into the DOM. */
   function initWorldClocks() {
     const container = document.getElementById("world-clocks");
